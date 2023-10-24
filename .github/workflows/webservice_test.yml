@@ -1,0 +1,24 @@
+name: Webservice test
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build:
+
+    runs-on: ubuntu-22.04 # Possible change
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: '17'  
+
+    - name: Running tests
+      working-directory: ./webservice  
+      run: mvn clean test -q
