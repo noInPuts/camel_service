@@ -1,7 +1,10 @@
+import Container from "react-bootstrap/Container"
 export default function FrontPage() {
 return (
 <>
-<h1>qs</h1>
+    <Container>
+        <h1>Restaurants</h1>
+    </Container>
 </>
 );
 }
