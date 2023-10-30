@@ -21,6 +21,14 @@ public class AccountDTO {
         this.password = password;
     }
 
+    public int getId() {
+        return this.id;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
     public HashMap<String, Object> getPublicProfile() {
         HashMap<String, Object> publicProfile = new HashMap<>();
         publicProfile.put("id", this.id);
