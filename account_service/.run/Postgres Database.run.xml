@@ -12,7 +12,14 @@
             </DockerEnvVarImpl>
           </list>
         </option>
-        <option name="publishAllPorts" value="true" />
+        <option name="portBindings">
+          <list>
+            <DockerPortBindingImpl>
+              <option name="containerPort" value="5432" />
+              <option name="hostPort" value="5432" />
+            </DockerPortBindingImpl>
+          </list>
+        </option>
       </settings>
     </deployment>
     <method v="2" />
