@@ -1,9 +1,12 @@
 package cphbusiness.noInPuts.accountService.repository;
 
 import cphbusiness.noInPuts.accountService.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface AccountRepository extends JpaRepository<User, Integer> {
+import java.util.Optional;
+
+public interface AccountRepository extends CrudRepository<User, Integer> {
+    Optional<User> findById(Integer id);
     // TODO: Create user account
     // TODO: Delete user account
     // TODO: Update user account

@@ -10,10 +10,9 @@ public class AccountDTO {
     public AccountDTO() {
     }
 
-    public AccountDTO(int id, String username, String password) {
+    public AccountDTO(int id, String username) {
         this.id = id;
         this.username = username;
-        this.password = password;
     }
 
     public AccountDTO(String username, String password) {

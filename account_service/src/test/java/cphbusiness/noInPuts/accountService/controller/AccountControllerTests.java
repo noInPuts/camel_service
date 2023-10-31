@@ -26,7 +26,7 @@ public class AccountControllerTests {
 
     @Test
     public void createAccountShouldReturnAccountWithID() throws Exception {
-        when(accountService.createAccount(any(AccountDTO.class))).thenReturn(new AccountDTO(1, "test_user", "password"));
+        when(accountService.createAccount(any(AccountDTO.class))).thenReturn(new AccountDTO(1, "test_user"));
         this.mockMvc.perform(post("/account/create").content("{ \"username\": \"test_user\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

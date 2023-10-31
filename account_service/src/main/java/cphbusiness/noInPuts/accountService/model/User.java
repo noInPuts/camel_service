@@ -39,4 +39,9 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    // For testing purposes
+    public void setId(int id) {
+        this.id = id;
+    }
 }
