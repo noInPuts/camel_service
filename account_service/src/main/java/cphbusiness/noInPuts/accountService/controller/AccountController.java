@@ -5,7 +5,7 @@ import cphbusiness.noInPuts.accountService.service.AccountService;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(maxAge = 3600)
 @RestController
 public class AccountController {
 
@@ -15,12 +15,10 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping("/account/create")
+    @PostMapping(value = "/account/create", produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     // TODO: Swagger documentation
-    // TODO: Return created account with ID
     // TODO: Apache Camel + ActiveMQ send message
-    // TODO: Declare endpoint returns JSON
     // TODO: Spam check
     public String createAccount(@RequestBody AccountDTO POSTaccountDTO) {
         AccountDTO accountDTO = accountService.createAccount(POSTaccountDTO);
