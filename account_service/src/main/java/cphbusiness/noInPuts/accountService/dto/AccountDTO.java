@@ -35,4 +35,8 @@ public class AccountDTO {
 
         return publicProfile;
     }
+
+    public String getPassword() {
+        return this.password;
+    }
 }

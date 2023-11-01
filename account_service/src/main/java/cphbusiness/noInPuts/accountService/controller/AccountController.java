@@ -2,7 +2,6 @@ package cphbusiness.noInPuts.accountService.controller;
 
 import cphbusiness.noInPuts.accountService.dto.AccountDTO;
 import cphbusiness.noInPuts.accountService.service.AccountService;
-import jdk.jshell.spi.ExecutionControl;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +22,8 @@ public class AccountController {
     // TODO: Apache Camel + ActiveMQ send message
     // TODO: Declare endpoint returns JSON
     // TODO: Spam check
-    public String createAccount(@RequestBody AccountDTO POSTaccountDTO) throws ExecutionControl.NotImplementedException {
+    public String createAccount(@RequestBody AccountDTO POSTaccountDTO) {
         AccountDTO accountDTO = accountService.createAccount(POSTaccountDTO);
-
         JSONObject publicProfileJsonObject = new JSONObject(accountDTO.getPublicProfile());
         return publicProfileJsonObject.toString();
     }
