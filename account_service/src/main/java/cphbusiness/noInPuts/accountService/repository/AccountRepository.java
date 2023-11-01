@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountRepository extends CrudRepository<User, Integer> {
-    // TODO: Create user account
     // TODO: Delete user account
     // TODO: Update user account
     // TODO: Get user account
