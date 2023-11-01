@@ -12,6 +12,7 @@ export default function NavBar() {
                     <Navbar.Collapse id="menu-navbar">
                         <Nav className="me-auto">
                             <Nav.Link href="/">Forside</Nav.Link>
+                            <Nav.Link href="/create_user">Opret bruger</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
