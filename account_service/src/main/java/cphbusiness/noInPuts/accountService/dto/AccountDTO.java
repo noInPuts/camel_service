@@ -28,14 +28,6 @@ public class AccountDTO {
         return this.username;
     }
 
-    public HashMap<String, Object> getPublicProfile() {
-        HashMap<String, Object> publicProfile = new HashMap<>();
-        publicProfile.put("id", this.id);
-        publicProfile.put("username", this.username);
-
-        return publicProfile;
-    }
-
     public String getPassword() {
         return this.password;
     }

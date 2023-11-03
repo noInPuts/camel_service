@@ -2,6 +2,7 @@ package cphbusiness.noInPuts.accountService.model;
 
 import jakarta.persistence.*;
 
+
 @Table(name = "users")
 @Entity
 public class User {
@@ -10,15 +11,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(nullable = false)
     private String username;
+    @Column(nullable = false)
     private String password;
-
+    @Column(nullable = false)
+    private String role;
     public User() {
     }
 
     public User(String username, String password) {
        this.username = username;
        this.password = password;
+       this.role = "user";
     }
 
     public int getId() {
@@ -44,5 +49,9 @@ public class User {
     // For testing purposes
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getRole() {
+        return role;
     }
 }

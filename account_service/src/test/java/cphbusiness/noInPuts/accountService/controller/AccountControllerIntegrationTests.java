@@ -23,6 +23,6 @@ public class AccountControllerIntegrationTests {
         this.mockMvc.perform(post("/account/create").content("{ \"username\": \"test_user\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json("{\"id\":1,\"username\":\"test_user\"}"));
+                .andExpect(content().json("{\"user\": { \"id\":1,\"username\":\"test_user\"}}"));
     }
 }
