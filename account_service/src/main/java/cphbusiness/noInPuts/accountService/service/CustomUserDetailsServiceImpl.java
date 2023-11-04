@@ -3,12 +3,12 @@ package cphbusiness.noInPuts.accountService.service;
 import cphbusiness.noInPuts.accountService.model.User;
 import cphbusiness.noInPuts.accountService.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 
+// TODO: Comments/Documentation
 @Service
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
     private final AccountRepository accountRepository;

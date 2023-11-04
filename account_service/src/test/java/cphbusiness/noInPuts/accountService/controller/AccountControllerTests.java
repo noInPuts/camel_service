@@ -2,7 +2,6 @@ package cphbusiness.noInPuts.accountService.controller;
 
 import cphbusiness.noInPuts.accountService.dto.AccountDTO;
 import cphbusiness.noInPuts.accountService.service.AccountService;
-import cphbusiness.noInPuts.accountService.service.CustomUserDetailsService;
 import cphbusiness.noInPuts.accountService.service.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

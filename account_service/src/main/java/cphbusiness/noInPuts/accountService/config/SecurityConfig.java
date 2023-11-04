@@ -21,6 +21,7 @@ public class SecurityConfig {
         this.customUserDetailsService = customUserDetailsService;
     }
 
+    // Config for Spring Security
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -35,6 +36,8 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // TODO: Comments/Documentation
+    // TODO: Full implementation
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

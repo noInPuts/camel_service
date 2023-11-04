@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cphbusiness.noInPuts</groupId>
-	<artifactId>accountService</artifactId>
+	<artifactId>auth_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>accountService</name>
 	<description>Service for handling accounts </description>

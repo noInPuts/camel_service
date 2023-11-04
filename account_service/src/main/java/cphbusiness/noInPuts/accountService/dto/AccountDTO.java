@@ -1,7 +1,5 @@
 package cphbusiness.noInPuts.accountService.dto;
 
-import java.util.HashMap;
-
 public class AccountDTO {
     private int id;
     private String username;
@@ -24,8 +22,16 @@ public class AccountDTO {
         return this.id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return this.username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPassword() {
