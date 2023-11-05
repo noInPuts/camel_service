@@ -3,6 +3,7 @@ package cphbusiness.noInPuts.accountService.controller;
 import cphbusiness.noInPuts.accountService.dto.AccountDTO;
 import cphbusiness.noInPuts.accountService.service.AccountService;
 import cphbusiness.noInPuts.accountService.service.JwtService;
+import cphbusiness.noInPuts.accountService.service.RabbitMessagePublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,10 @@ public class AccountController {
 
     private final AccountService accountService;
     private final JwtService jwtService;
+
+    // TODO: Change to constructor injection
+    @Autowired
+    public RabbitMessagePublisher rabbitMessagePublisher;
 
     @Autowired
     public AccountController(AccountService accountService, JwtService jwtService) {
@@ -34,6 +39,7 @@ public class AccountController {
         AccountDTO accountDTO = accountService.createAccount(POSTaccountDTO);
         String jwtToken = jwtService.generateToken(accountDTO);
 
+        rabbitMessagePublisher.sendMessage("Account created: " + accountDTO.getUsername());
         // TODO: Fix this redundant code
         Map<String, Object> response = new HashMap<>();
         response.put("user", accountDTO);
