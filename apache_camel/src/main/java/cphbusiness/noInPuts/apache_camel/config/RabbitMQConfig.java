@@ -16,9 +16,10 @@ public class RabbitMQConfig {
         return connectionFactory;
     }
 
+    // Queue for creating users
     @Bean
-    public Queue myQueue() {
-        return new Queue("myqueue");
+    public Queue userCreatedQueue() {
+        return new Queue("userCreatedQueue");
     }
 
 }

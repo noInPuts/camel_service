@@ -15,7 +15,7 @@ public class RabbitMessagePublisher {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendMessage(String message) {
-        rabbitTemplate.convertAndSend("test", "", message);
+    public void createdUserEvent(String message) {
+        rabbitTemplate.convertAndSend("", "userCreatedQueue", message);
     }
 }

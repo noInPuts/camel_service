@@ -39,7 +39,7 @@ public class AccountController {
         AccountDTO accountDTO = accountService.createAccount(POSTaccountDTO);
         String jwtToken = jwtService.generateToken(accountDTO);
 
-        rabbitMessagePublisher.sendMessage("Account created: " + accountDTO.getUsername());
+        rabbitMessagePublisher.createdUserEvent("Account created: " + accountDTO.getUsername());
         // TODO: Fix this redundant code
         Map<String, Object> response = new HashMap<>();
         response.put("user", accountDTO);
