@@ -16,6 +16,6 @@ public class RabbitMessagePublisher {
     }
 
     public void createdUserEvent(String message) {
-        rabbitTemplate.convertAndSend("", "userCreatedQueue", message);
+        rabbitTemplate.convertAndSend("", "userCreated", message);
     }
 }
