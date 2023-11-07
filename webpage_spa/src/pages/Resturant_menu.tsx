@@ -5,38 +5,43 @@ export default function RestaurantMenu() {
     return (
         <>
             <Container>
-                <h1>Restaurants</h1>
-
-                <div className="col-sm-8 text-left">
-                    <h1>Nr. 1 pepperoni</h1>
-                    <div className="row">
-                        <div className="col-sm-8">
-                            <p>tomat, ost pepperoni</p>
-                        
+                <div className="container-fluid">
+                    <div className="row content">
+                        <div className="col-sm-2 sidenav text-left">
+                            <div className="card-header py-3">
+                                <h5 className="mb-0">Menu</h5>
+                                <p><a href="#">Almindelig pizza</a></p>
+                                <p><a href="#">salat pizza</a></p>
+                                <p><a href="#">Inbagt pizza</a></p>
                             </div>
-                        <div className="col-sm-2">
-                            <Button>Add to cart </Button>
-
                         </div>
-                        </div>
-                    <hr></hr>
+                        <div className="col-sm-8 text-left">
+                            <h1>nr 1. pepperoni</h1>
+                            <div className="row">
+                                <div className="col-sm-8">
+                                    <p>Tomato, chese, pepperoni</p>
+                                </div>
+                                <div className="col-sm-2">
+                                    <Button>add to cart</Button>
 
-                </div>                <div className="col-sm-8 text-left">
-                    <h1>Nr. 1 pepperoni</h1>
-                    <div className="row">
-                        <div className="col-sm-8">
-                            <p>tomat, ost pepperoni</p>
-                        
+                                </div>
+                            </div><hr></hr>
+
+                            <h1>nr 1. pepperoni</h1>
+                            <div className="row">
+                                <div className="col-sm-8">
+                                    <p>Tomato, chese, pepperoni</p>
+                                </div>
+                                <div className="col-sm-2">
+                                    <Button>add to cart</Button>
+
+                                </div>
+                                <hr></hr>
                             </div>
-                        <div className="col-sm-2">
-                            <Button>Add to cart </Button>
-
                         </div>
-                        </div>
-                    <hr></hr>
-
-                </div>
-            </Container>
+                    </div>
+</div>
+            </Container >
         </>
     );
 }
