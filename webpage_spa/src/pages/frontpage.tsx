@@ -7,24 +7,25 @@ export default function FrontPage() {
             <Container>
                 <h1>Restaurants</h1>
 
-                <div className="col-sm-8 text-left">
-                    <h1>Tony's Pizza</h1>
-                    <div className="row">
-                        <div className="col-sm-8">
-                            <p>Adress</p>
-                            <br></br>
-                            <p>rating</p>
+                <a href="/Resturant_menu">
+                    <div className="col-sm-8 text-left">
+                        <h1>Tony's Pizza</h1>
+                        <div className="row">
+                            <div className="col-sm-8">
+                                <p>Adress</p>
+                                <br></br>
+                                <p>rating</p>
                             </div>
-                        <div className="col-sm-2">
-                            <h2><Badge pill bg="success">open</Badge></h2> <br></br>
-                            <p>opening hours</p>
+                            <div className="col-sm-2">
+                                <h2><Badge pill bg="success">open</Badge></h2> <br></br>
+                                <p>opening hours</p>
 
+                            </div>
                         </div>
-                        </div>
-                    <hr></hr>
-
-                </div>
-            </Container>
+                        <hr></hr>
+                    </div>
+                </a>
+        </Container >
         </>
     );
 }
