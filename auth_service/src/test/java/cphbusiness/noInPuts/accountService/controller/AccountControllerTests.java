@@ -3,6 +3,7 @@ package cphbusiness.noInPuts.accountService.controller;
 import cphbusiness.noInPuts.accountService.dto.AccountDTO;
 import cphbusiness.noInPuts.accountService.service.AccountService;
 import cphbusiness.noInPuts.accountService.service.JwtService;
+import cphbusiness.noInPuts.accountService.service.RabbitMessagePublisher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,6 +30,9 @@ public class AccountControllerTests {
 
     @MockBean
     private JwtService jwtService;
+
+    @MockBean
+    private RabbitMessagePublisher rabbitMessagePublisher;
 
     @Test
     public void createAccountShouldReturnAccountWithID() throws Exception {

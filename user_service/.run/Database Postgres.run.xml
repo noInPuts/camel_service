@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Postgres Database" type="docker-deploy" factoryName="docker-image" server-name="Docker">
+  <configuration default="false" name="Database Postgres" type="docker-deploy" factoryName="docker-image" server-name="Docker">
     <deployment type="docker-image">
       <settings>
         <option name="imageTag" value="postgres:16" />
-        <option name="containerName" value="postgres_database_authService" />
+        <option name="containerName" value="postgres_database_userService" />
         <option name="envVars">
           <list>
             <DockerEnvVarImpl>
@@ -16,7 +16,7 @@
           <list>
             <DockerPortBindingImpl>
               <option name="containerPort" value="5432" />
-              <option name="hostPort" value="5432" />
+              <option name="hostPort" value="5433" />
             </DockerPortBindingImpl>
           </list>
         </option>
