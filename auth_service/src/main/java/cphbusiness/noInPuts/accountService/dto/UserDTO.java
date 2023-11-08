@@ -1,19 +1,25 @@
 package cphbusiness.noInPuts.accountService.dto;
 
-public class AccountDTO {
+import jakarta.validation.constraints.NotBlank;
+
+public class UserDTO {
     private int id;
+    @NotBlank(message = "Username is mandatory")
     private String username;
+
+
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
-    public AccountDTO() {
+    public UserDTO() {
     }
 
-    public AccountDTO(int id, String username) {
+    public UserDTO(int id, String username) {
         this.id = id;
         this.username = username;
     }
 
-    public AccountDTO(String username, String password) {
+    public UserDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }

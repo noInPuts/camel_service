@@ -1,6 +1,6 @@
 package cphbusiness.noInPuts.accountService.service;
 
-import cphbusiness.noInPuts.accountService.dto.AccountDTO;
+import cphbusiness.noInPuts.accountService.dto.UserDTO;
 import cphbusiness.noInPuts.accountService.model.User;
 import cphbusiness.noInPuts.accountService.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -27,11 +27,11 @@ public class UserServiceTests {
         user.setId(1);
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        AccountDTO accountDTO = new AccountDTO("test_user", "password");
-        AccountDTO createdAccountDTO = userService.createAccount(accountDTO);
+        UserDTO userDTO = new UserDTO("test_user", "password");
+        UserDTO createdUserDTO = userService.createAccount(userDTO);
 
-        assertEquals(createdAccountDTO.getUsername(), accountDTO.getUsername());
-        assertEquals(createdAccountDTO.getId(), 1);
+        assertEquals(createdUserDTO.getUsername(), userDTO.getUsername());
+        assertEquals(createdUserDTO.getId(), 1);
     }
 
     // TODO: Exception test for createAccount

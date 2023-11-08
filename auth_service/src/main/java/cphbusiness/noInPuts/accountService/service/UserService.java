@@ -1,8 +1,8 @@
 package cphbusiness.noInPuts.accountService.service;
 
-import cphbusiness.noInPuts.accountService.dto.AccountDTO;
+import cphbusiness.noInPuts.accountService.dto.UserDTO;
 
 public interface UserService {
-    AccountDTO createAccount(AccountDTO accountDTO);
-    AccountDTO login(AccountDTO accountDTO);
+    UserDTO createAccount(UserDTO userDTO);
+    UserDTO login(UserDTO userDTO);
 }
