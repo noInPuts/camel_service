@@ -1,6 +1,7 @@
 package cphbusiness.noInPuts.accountService.service;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
+import cphbusiness.noInPuts.accountService.exception.UserAlreadyExistsException;
 import cphbusiness.noInPuts.accountService.model.User;
 import cphbusiness.noInPuts.accountService.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ public class UserServiceTests {
     private UserRepository userRepository;
 
     @Test
-    public void createUserShouldReturnWithID() {
+    public void createUserShouldReturnWithID() throws UserAlreadyExistsException {
         User user = new User("test_user", "password");
         user.setId(1);
         when(userRepository.save(any(User.class))).thenReturn(user);

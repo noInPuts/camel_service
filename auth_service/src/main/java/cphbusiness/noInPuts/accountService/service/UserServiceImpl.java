@@ -1,6 +1,7 @@
 package cphbusiness.noInPuts.accountService.service;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
+import cphbusiness.noInPuts.accountService.exception.UserAlreadyExistsException;
 import cphbusiness.noInPuts.accountService.model.User;
 import cphbusiness.noInPuts.accountService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,11 @@ public class UserServiceImpl implements UserService {
     // TODO: Hashing password
     // TODO: Check for username is occupied
     // TODO: Check password is strong enough
-    public UserDTO createAccount(UserDTO userDTO)  {
+    public UserDTO createAccount(UserDTO userDTO) throws UserAlreadyExistsException {
         User user = userRepository.save(new User(userDTO.getUsername(), userDTO.getPassword()));
+        if(232 == 222) {
+            throw new UserAlreadyExistsException("User already exists");
+        }
         return new UserDTO(user.getId(), user.getUsername());
     }
 

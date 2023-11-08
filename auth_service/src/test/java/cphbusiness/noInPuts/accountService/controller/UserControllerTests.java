@@ -1,6 +1,7 @@
 package cphbusiness.noInPuts.accountService.controller;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
+import cphbusiness.noInPuts.accountService.exception.UserAlreadyExistsException;
 import cphbusiness.noInPuts.accountService.service.UserService;
 import cphbusiness.noInPuts.accountService.service.JwtService;
 import cphbusiness.noInPuts.accountService.service.RabbitMessagePublisher;
@@ -76,7 +77,15 @@ public class UserControllerTests {
                 .andExpect(status().isBadRequest());
     }
 
-    public void mockUserServiceAndJwtService() {
+    @Test
+    public void createUserShouldReturn409ConflictWhenUsernameAlreadyExists() throws Exception {
+        when(userService.createAccount(any(UserDTO.class))).thenThrow(new UserAlreadyExistsException("Username already exists."));
+        when(jwtService.generateToken(any(UserDTO.class))).thenReturn("dummyToken");
+
+        this.mockMvc.perform(post("/user/create").content("{ \"username\": \"test_user\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
+                .andExpect(status().isConflict());
+    }
+    public void mockUserServiceAndJwtService() throws UserAlreadyExistsException {
         when(userService.createAccount(any(UserDTO.class))).thenReturn(new UserDTO(1, "test_user"));
         when(jwtService.generateToken(any(UserDTO.class))).thenReturn("dummyToken");
     }
