@@ -107,23 +107,20 @@ public class UserControllerTests {
                 .andExpect(status().isUnauthorized());
     }
 
-    // TODO: Imlementation
-    @Disabled
     @Test
     public void loginShouldReturn400BadRequestWhenParsingBadRequest() throws Exception {
         mockUserServiceAndJwtService();
 
-        this.mockMvc.perform(post("/user/login").content("{ \"username\": \"test_user\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
+        this.mockMvc.perform(post("/user/login").content("{ \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
                 .andExpect(status().isBadRequest());
     }
 
-    // TODO: Imlementation
     @Disabled
     @Test
     public void loginShouldReturn415UnsupportedeMediaTypeWhenParsingInvalidJson() throws Exception {
         mockUserServiceAndJwtService();
-        //TODO:
-        this.mockMvc.perform(post("/user/login").content("{ \"username\": \"test_user\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
+
+        this.mockMvc.perform(post("/user/login").content("not json").characterEncoding("UTF-8"))
                 .andExpect(status().isUnsupportedMediaType());
     }
 
