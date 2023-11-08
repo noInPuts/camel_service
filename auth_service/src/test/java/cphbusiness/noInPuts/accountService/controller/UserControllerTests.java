@@ -52,6 +52,30 @@ public class UserControllerTests {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void createUserShouldReturn415UnsupportedeMediaTypeWhenParsingInvalidJson() throws Exception {
+        mockUserServiceAndJwtService();
+
+        this.mockMvc.perform(post("/user/create").content("not json").characterEncoding("UTF-8"))
+                .andExpect(status().isUnsupportedMediaType());
+    }
+
+    @Test
+    public void createUserShouldReturn400BadRequestWhenParsingEmptyUsername() throws Exception {
+        mockUserServiceAndJwtService();
+
+        this.mockMvc.perform(post("/user/create").content("{ \"username\": \"\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createUserShouldReturn400BadRequestWhenParsingEmptyPassword() throws Exception {
+        mockUserServiceAndJwtService();
+
+        this.mockMvc.perform(post("/user/create").content("{ \"username\": \"user_test\", \"password\": \"\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
+                .andExpect(status().isBadRequest());
+    }
+
     public void mockUserServiceAndJwtService() {
         when(userService.createAccount(any(UserDTO.class))).thenReturn(new UserDTO(1, "test_user"));
         when(jwtService.generateToken(any(UserDTO.class))).thenReturn("dummyToken");
