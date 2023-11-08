@@ -11,7 +11,7 @@
 	<groupId>cphbusiness.noInPuts</groupId>
 	<artifactId>auth_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>accountService</name>
+	<name>userService</name>
 	<description>Service for handling accounts </description>
 	<properties>
 		<java.version>17</java.version>

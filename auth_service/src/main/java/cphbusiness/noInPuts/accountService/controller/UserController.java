@@ -1,7 +1,7 @@
 package cphbusiness.noInPuts.accountService.controller;
 
 import cphbusiness.noInPuts.accountService.dto.AccountDTO;
-import cphbusiness.noInPuts.accountService.service.AccountService;
+import cphbusiness.noInPuts.accountService.service.UserService;
 import cphbusiness.noInPuts.accountService.service.JwtService;
 import cphbusiness.noInPuts.accountService.service.RabbitMessagePublisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,9 @@ import java.util.Map;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
-public class AccountController {
+public class UserController {
 
-    private final AccountService accountService;
+    private final UserService userService;
     private final JwtService jwtService;
 
     // TODO: Change to constructor injection
@@ -24,22 +24,22 @@ public class AccountController {
     public RabbitMessagePublisher rabbitMessagePublisher;
 
     @Autowired
-    public AccountController(AccountService accountService, JwtService jwtService) {
-        this.accountService = accountService;
+    public UserController(UserService userService, JwtService jwtService) {
+        this.userService = userService;
         this.jwtService = jwtService;
     }
 
     // Endpoint for creating a user account
-    @PostMapping(value = "/account/create", produces = "application/json", consumes = "application/json")
+    @PostMapping(value = "/user/create", produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     // TODO: Swagger documentation
     // TODO: Apache Camel + ActiveMQ send message
     // TODO: Spam check
-    public ResponseEntity<Map<String, Object>> createAccount(@RequestBody AccountDTO POSTaccountDTO) {
-        AccountDTO accountDTO = accountService.createAccount(POSTaccountDTO);
+    public ResponseEntity<Map<String, Object>> createUser(@RequestBody AccountDTO POSTaccountDTO) {
+        AccountDTO accountDTO = userService.createAccount(POSTaccountDTO);
         String jwtToken = jwtService.generateToken(accountDTO);
 
-        rabbitMessagePublisher.createdUserEvent("Account created: " + accountDTO.getUsername());
+        rabbitMessagePublisher.createdUserEvent("User created: " + accountDTO.getUsername());
         // TODO: Fix this redundant code
         Map<String, Object> response = new HashMap<>();
         response.put("user", accountDTO);
@@ -49,10 +49,10 @@ public class AccountController {
 
     // Endpoint for logging in to a user account
     // TODO: Create tests for this
-    @PostMapping(value = "/account/login", consumes = "application/json")
+    @PostMapping(value = "/user/login", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Map<String, Object>> login(@RequestBody AccountDTO POSTaccountDTO) {
-        AccountDTO accountDTO = accountService.login(POSTaccountDTO);
+        AccountDTO accountDTO = userService.login(POSTaccountDTO);
         String jwtToken = jwtService.generateToken(accountDTO);
 
         // TODO: Fix this redundant code

@@ -2,19 +2,19 @@ package cphbusiness.noInPuts.accountService.service;
 
 import cphbusiness.noInPuts.accountService.dto.AccountDTO;
 import cphbusiness.noInPuts.accountService.model.User;
-import cphbusiness.noInPuts.accountService.repository.AccountRepository;
+import cphbusiness.noInPuts.accountService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountServiceImpl implements AccountService {
+public class UserServiceImpl implements UserService {
 
-    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     // TODO: Automated acceptance test (Cucumber)
@@ -22,13 +22,13 @@ public class AccountServiceImpl implements AccountService {
     // TODO: Check for username is occupied
     // TODO: Check password is strong enough
     public AccountDTO createAccount(AccountDTO accountDTO)  {
-        User user = accountRepository.save(new User(accountDTO.getUsername(), accountDTO.getPassword()));
+        User user = userRepository.save(new User(accountDTO.getUsername(), accountDTO.getPassword()));
         return new AccountDTO(user.getId(), user.getUsername());
     }
 
     // TODO: Create tests for this
     public AccountDTO login(AccountDTO accountDTO) {
-        User user = accountRepository.findByUsername(accountDTO.getUsername());
+        User user = userRepository.findByUsername(accountDTO.getUsername());
         if (user != null) {
             if (user.getPassword().equals(accountDTO.getPassword())) {
                 accountDTO.setPassword(null);

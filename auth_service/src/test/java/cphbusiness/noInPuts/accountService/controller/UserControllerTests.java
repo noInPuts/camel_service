@@ -1,7 +1,7 @@
 package cphbusiness.noInPuts.accountService.controller;
 
 import cphbusiness.noInPuts.accountService.dto.AccountDTO;
-import cphbusiness.noInPuts.accountService.service.AccountService;
+import cphbusiness.noInPuts.accountService.service.UserService;
 import cphbusiness.noInPuts.accountService.service.JwtService;
 import cphbusiness.noInPuts.accountService.service.RabbitMessagePublisher;
 import org.junit.jupiter.api.Test;
@@ -18,15 +18,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AccountController.class)
+@WebMvcTest(UserController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class AccountControllerTests {
+public class UserControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AccountService accountService;
+    private UserService userService;
 
     @MockBean
     private JwtService jwtService;
@@ -35,11 +35,11 @@ public class AccountControllerTests {
     private RabbitMessagePublisher rabbitMessagePublisher;
 
     @Test
-    public void createAccountShouldReturnAccountWithID() throws Exception {
-        when(accountService.createAccount(any(AccountDTO.class))).thenReturn(new AccountDTO(1, "test_user"));
+    public void createUserShouldReturnAccountWithID() throws Exception {
+        when(userService.createAccount(any(AccountDTO.class))).thenReturn(new AccountDTO(1, "test_user"));
         when(jwtService.generateToken(any(AccountDTO.class))).thenReturn("dummyToken");
 
-        this.mockMvc.perform(post("/account/create").content("{ \"username\": \"test_user\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
+        this.mockMvc.perform(post("/user/create").content("{ \"username\": \"test_user\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{\"user\":{\"id\":1,\"username\":\"test_user\"}}"));

@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AccountControllerIntegrationTests {
+public class UserControllerIntegrationTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -24,8 +24,8 @@ public class AccountControllerIntegrationTests {
     private RabbitMessagePublisher rabbitMessagePublisher;
 
     @Test
-    public void createAccountShouldReturnAccountWithID() throws Exception {
-        this.mockMvc.perform(post("/account/create").content("{ \"username\": \"test_user\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
+    public void createUserShouldReturnAccountWithID() throws Exception {
+        this.mockMvc.perform(post("/user/create").content("{ \"username\": \"test_user\", \"password\": \"password\" }").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{\"user\": { \"id\":1,\"username\":\"test_user\"}}"));

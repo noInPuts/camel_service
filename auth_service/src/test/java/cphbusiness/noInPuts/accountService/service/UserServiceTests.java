@@ -2,7 +2,7 @@ package cphbusiness.noInPuts.accountService.service;
 
 import cphbusiness.noInPuts.accountService.dto.AccountDTO;
 import cphbusiness.noInPuts.accountService.model.User;
-import cphbusiness.noInPuts.accountService.repository.AccountRepository;
+import cphbusiness.noInPuts.accountService.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,22 +13,22 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class AccountServiceTests {
+public class UserServiceTests {
 
     @Autowired
-    private AccountService accountService;
+    private UserService userService;
 
     @MockBean
-    private AccountRepository accountRepository;
+    private UserRepository userRepository;
 
     @Test
-    public void createAccountShouldReturnWithID() {
+    public void createUserShouldReturnWithID() {
         User user = new User("test_user", "password");
         user.setId(1);
-        when(accountRepository.save(any(User.class))).thenReturn(user);
+        when(userRepository.save(any(User.class))).thenReturn(user);
 
         AccountDTO accountDTO = new AccountDTO("test_user", "password");
-        AccountDTO createdAccountDTO = accountService.createAccount(accountDTO);
+        AccountDTO createdAccountDTO = userService.createAccount(accountDTO);
 
         assertEquals(createdAccountDTO.getUsername(), accountDTO.getUsername());
         assertEquals(createdAccountDTO.getId(), 1);
