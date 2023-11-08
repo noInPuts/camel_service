@@ -2,6 +2,7 @@ package cphbusiness.noInPuts.accountService.controller;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
 import cphbusiness.noInPuts.accountService.exception.UserAlreadyExistsException;
+import cphbusiness.noInPuts.accountService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.accountService.service.UserService;
 import cphbusiness.noInPuts.accountService.service.JwtService;
 import cphbusiness.noInPuts.accountService.service.RabbitMessagePublisher;
@@ -21,14 +22,13 @@ public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
 
-    // TODO: Change to constructor injection
-    @Autowired
-    public RabbitMessagePublisher rabbitMessagePublisher;
+    private final RabbitMessagePublisher rabbitMessagePublisher;
 
     @Autowired
-    public UserController(UserService userService, JwtService jwtService) {
+    public UserController(UserService userService, JwtService jwtService, RabbitMessagePublisher rabbitMessagePublisher) {
         this.userService = userService;
         this.jwtService = jwtService;
+        this.rabbitMessagePublisher = rabbitMessagePublisher;
     }
 
     // Endpoint for creating a user account
@@ -52,6 +52,7 @@ public class UserController {
         // Send out createdUserEvent to RabbitMQ/Apache Camel
         rabbitMessagePublisher.createdUserEvent("User created: " + userDTO.getUsername());
 
+        // Creates response entity with userDTO and JWT token
         Map<String, Object> response = new HashMap<>();
         response.put("user", userDTO);
         response.put("jwtToken", jwtToken);
@@ -60,16 +61,26 @@ public class UserController {
     }
 
     // Endpoint for logging in to a user account
-    // TODO: Create tests for this
     @PostMapping(value = "/user/login", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Map<String, Object>> login(@RequestBody UserDTO POSTuserDTO) {
-        UserDTO userDTO = userService.login(POSTuserDTO);
+    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody UserDTO POSTuserDTO) {
+
+        // Check for correct credentials
+        UserDTO userDTO;
+        try {
+            userDTO = userService.login(POSTuserDTO);
+        } catch (WrongCredentialsException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        // Generate JWT token for user
         String jwtToken = jwtService.generateToken(userDTO);
 
+        // Creates response entity with userDTO and JWT token
         Map<String,Object> response = new HashMap<>();
         response.put("user", userDTO);
         response.put("jwtToken", jwtToken);
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
