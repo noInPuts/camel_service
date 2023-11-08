@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-public class AccountRepositoryTests {
+public class UserRepositoryTests {
 
     @Autowired
-    AccountRepository accountRepository;
+    UserRepository userRepository;
 
     @Test
-    public void createAccountShouldReturnWithID() {
-        User user = accountRepository.save(new User("test_user", "password"));
+    public void createUserShouldReturnWithID() {
+        User user = userRepository.save(new User("test_user", "password"));
 
         assertNotNull(user);
         assertEquals(user.getUsername(), "test_user");

@@ -10,6 +10,7 @@ public class RabbitMQConsumer implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
+        // TODO: Implementation
         System.out.println("Consuming Message - " + new String(message.getBody()));
     }
 }
