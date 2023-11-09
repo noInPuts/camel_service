@@ -2,6 +2,7 @@ package cphbusiness.noInPuts.accountService.controller;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
 import cphbusiness.noInPuts.accountService.exception.UserAlreadyExistsException;
+import cphbusiness.noInPuts.accountService.exception.WeakPasswordException;
 import cphbusiness.noInPuts.accountService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.accountService.service.UserService;
 import cphbusiness.noInPuts.accountService.service.JwtService;
@@ -41,9 +42,11 @@ public class UserController {
         // Catch exception if user already exists else create entity in DB
         UserDTO userDTO;
         try {
-            userDTO = userService.createAccount(POSTuserDTO);
+            userDTO = userService.createUser(POSTuserDTO);
         } catch (UserAlreadyExistsException e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (WeakPasswordException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         // Genereate JWT token for user
