@@ -2,6 +2,7 @@ package cphbusiness.noInPuts.accountService.service;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
 import cphbusiness.noInPuts.accountService.exception.UserAlreadyExistsException;
+import cphbusiness.noInPuts.accountService.exception.UserDoesNotExistException;
 import cphbusiness.noInPuts.accountService.exception.WeakPasswordException;
 import cphbusiness.noInPuts.accountService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.accountService.model.User;
@@ -49,8 +50,7 @@ public class UserServiceImpl implements UserService {
         return new UserDTO(user.getId(), user.getUsername());
     }
 
-    // TODO: Create tests for this
-    public UserDTO login(UserDTO userDTO) throws WrongCredentialsException {
+    public UserDTO login(UserDTO userDTO) throws WrongCredentialsException, UserDoesNotExistException {
         Optional<User> user = userRepository.findByUsername(userDTO.getUsername());
         if (user.isPresent()) {
             if (user.get().getPassword().equals(userDTO.getPassword())) {
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
                 throw new WrongCredentialsException("Wrong password.");
             }
         } else {
-            throw new UsernameNotFoundException("User not found.");
+            throw new UserDoesNotExistException("User not found.");
         }
 
         return userDTO;

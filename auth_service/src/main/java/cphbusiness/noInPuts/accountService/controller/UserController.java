@@ -2,6 +2,7 @@ package cphbusiness.noInPuts.accountService.controller;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
 import cphbusiness.noInPuts.accountService.exception.UserAlreadyExistsException;
+import cphbusiness.noInPuts.accountService.exception.UserDoesNotExistException;
 import cphbusiness.noInPuts.accountService.exception.WeakPasswordException;
 import cphbusiness.noInPuts.accountService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.accountService.service.UserService;
@@ -72,7 +73,7 @@ public class UserController {
         UserDTO userDTO;
         try {
             userDTO = userService.login(POSTuserDTO);
-        } catch (WrongCredentialsException e) {
+        } catch (WrongCredentialsException | UserDoesNotExistException e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
