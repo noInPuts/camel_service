@@ -2,6 +2,7 @@ package cphbusiness.noInPuts.accountService.service;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
 import cphbusiness.noInPuts.accountService.exception.UserAlreadyExistsException;
+import cphbusiness.noInPuts.accountService.exception.WeakPasswordException;
 import cphbusiness.noInPuts.accountService.model.User;
 import cphbusiness.noInPuts.accountService.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -26,12 +27,12 @@ public class UserServiceTests {
     private UserRepository userRepository;
 
     @Test
-    public void createUserShouldReturnWithID() throws UserAlreadyExistsException {
+    public void createUserShouldReturnWithID() throws UserAlreadyExistsException, WeakPasswordException {
         User user = new User("test_user", "password");
         user.setId(1);
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        UserDTO userDTO = new UserDTO("test_user", "password");
+        UserDTO userDTO = new UserDTO("test_user", "Password1!");
         UserDTO createdUserDTO = userService.createAccount(userDTO);
 
         assertEquals(createdUserDTO.getUsername(), userDTO.getUsername());
@@ -40,13 +41,18 @@ public class UserServiceTests {
 
     @Test
     public void createUserShouldThrowExceptionWhenUserAlreadyExist() {
-        User user = new User("user", "password");
+        User user = new User("user", "Password1!");
         when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(user));
-        UserDTO userDTO = new UserDTO("test_user", "password");
+        UserDTO userDTO = new UserDTO("test_user", "Password1!");
 
         assertThrows(UserAlreadyExistsException.class, () -> userService.createAccount(userDTO));
-
     }
 
-    // TODO: Exception test for createAccount
+    @Test
+    public void createUserShouldThrowExceptionWhenPasswordIsToWeak() {
+        // Create userDTO with weak password
+        UserDTO userDTO  = new UserDTO("test_user", "weak");
+
+        assertThrows(WeakPasswordException.class, () -> userService.createAccount(userDTO));
+    }
 }
