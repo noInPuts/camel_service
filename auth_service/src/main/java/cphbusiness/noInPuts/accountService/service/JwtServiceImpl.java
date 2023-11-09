@@ -9,18 +9,20 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
-// TODO: Comments/Documentation
+
 @Service
 public class JwtServiceImpl implements JwtService {
 
     @Value("${jwt.secret}")
     private String pKey;
 
-    // TODO: Generate test for this
+
     @Override
     public String generateToken(UserDTO userDTO) {
+        // Creates secret key from our private key
         SecretKey key = Keys.hmacShaKeyFor(pKey.getBytes());
 
+        // Creates JWT Token and returns it
         return Jwts.builder()
                 .header()
                 .add("id", userDTO.getId())
