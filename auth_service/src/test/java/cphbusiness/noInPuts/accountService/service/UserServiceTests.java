@@ -2,9 +2,12 @@ package cphbusiness.noInPuts.accountService.service;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
 import cphbusiness.noInPuts.accountService.exception.UserAlreadyExistsException;
+import cphbusiness.noInPuts.accountService.exception.UserDoesNotExistException;
 import cphbusiness.noInPuts.accountService.exception.WeakPasswordException;
+import cphbusiness.noInPuts.accountService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.accountService.model.User;
 import cphbusiness.noInPuts.accountService.repository.UserRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -54,5 +57,31 @@ public class UserServiceTests {
         UserDTO userDTO  = new UserDTO("test_user", "weak");
 
         assertThrows(WeakPasswordException.class, () -> userService.createUser(userDTO));
+    }
+
+    @Test
+    public void loginShouldReturnUserWithID() throws WrongCredentialsException, UserDoesNotExistException {
+        User userEntity = new User("test_user", "Password1!");
+        userEntity.setId(1);
+        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(userEntity));
+
+        UserDTO user = userService.login(new UserDTO("test_user", "Password1!"));
+
+        assertEquals(1, user.getId());
+    }
+
+    @Test
+    public void loginShouldThrowExceptionWhenUserDoNotExists() {
+        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.empty());
+
+        assertThrows(UserDoesNotExistException.class, () -> userService.login(new UserDTO("test_user", "Password1!")));
+    }
+
+    @Test
+    public void loginShouldThrowExceptionWhenPasswordIsWrong() {
+        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(new User("test_user", "Password1!")));
+
+        assertThrows(WrongCredentialsException.class, () -> userService.login(new UserDTO("test_user", "Password2!")));
+
     }
 }
