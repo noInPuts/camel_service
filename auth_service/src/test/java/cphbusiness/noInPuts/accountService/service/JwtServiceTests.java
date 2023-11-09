@@ -1,14 +1,17 @@
 package cphbusiness.noInPuts.accountService.service;
 
 import cphbusiness.noInPuts.accountService.dto.UserDTO;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.hamcrest.Matchers.any;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+
+import java.security.NoSuchAlgorithmException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class JwtServiceTests {
@@ -17,7 +20,12 @@ public class JwtServiceTests {
     private JwtService jwtService;
 
     @Test
-    public void generateTokenShouldReturnToken() {
+    public void generateTokenShouldReturnToken() throws NoSuchAlgorithmException {
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA512");
+        String mockedPrivateKey = String.valueOf(keyGenerator.generateKey());
+
+        ReflectionTestUtils.setField(jwtService, "pKey", mockedPrivateKey);
+
         UserDTO userDTO = new UserDTO("test_user", "Password1!");
         String jwtToken = jwtService.generateToken(userDTO);
 
