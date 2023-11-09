@@ -29,7 +29,6 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
         if (user.isPresent()) {
             builder = org.springframework.security.core.userdetails.User.withUsername(username);
             builder.password(user.get().getPassword());
-            builder.roles(user.get().getRole());
         } else {
             throw new UsernameNotFoundException("User not found.");
         }
