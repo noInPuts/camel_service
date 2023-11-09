@@ -33,7 +33,7 @@ public class UserServiceTests {
         when(userRepository.save(any(User.class))).thenReturn(user);
 
         UserDTO userDTO = new UserDTO("test_user", "Password1!");
-        UserDTO createdUserDTO = userService.createAccount(userDTO);
+        UserDTO createdUserDTO = userService.createUser(userDTO);
 
         assertEquals(createdUserDTO.getUsername(), userDTO.getUsername());
         assertEquals(createdUserDTO.getId(), 1);
@@ -45,7 +45,7 @@ public class UserServiceTests {
         when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(user));
         UserDTO userDTO = new UserDTO("test_user", "Password1!");
 
-        assertThrows(UserAlreadyExistsException.class, () -> userService.createAccount(userDTO));
+        assertThrows(UserAlreadyExistsException.class, () -> userService.createUser(userDTO));
     }
 
     @Test
@@ -53,6 +53,6 @@ public class UserServiceTests {
         // Create userDTO with weak password
         UserDTO userDTO  = new UserDTO("test_user", "weak");
 
-        assertThrows(WeakPasswordException.class, () -> userService.createAccount(userDTO));
+        assertThrows(WeakPasswordException.class, () -> userService.createUser(userDTO));
     }
 }

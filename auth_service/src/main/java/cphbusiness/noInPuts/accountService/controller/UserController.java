@@ -42,7 +42,7 @@ public class UserController {
         // Catch exception if user already exists else create entity in DB
         UserDTO userDTO;
         try {
-            userDTO = userService.createAccount(POSTuserDTO);
+            userDTO = userService.createUser(POSTuserDTO);
         } catch (UserAlreadyExistsException e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (WeakPasswordException e) {

@@ -7,7 +7,6 @@ import cphbusiness.noInPuts.accountService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.accountService.service.UserService;
 import cphbusiness.noInPuts.accountService.service.JwtService;
 import cphbusiness.noInPuts.accountService.service.RabbitMessagePublisher;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -82,7 +81,7 @@ public class UserControllerTests {
 
     @Test
     public void createUserShouldReturn409ConflictWhenUsernameAlreadyExists() throws Exception {
-        when(userService.createAccount(any(UserDTO.class))).thenThrow(new UserAlreadyExistsException("Username already exists."));
+        when(userService.createUser(any(UserDTO.class))).thenThrow(new UserAlreadyExistsException("Username already exists."));
         when(jwtService.generateToken(any(UserDTO.class))).thenReturn("dummyToken");
 
         this.mockMvc.perform(post("/user/create").content("{ \"username\": \"test_user\", \"password\": \"Password1!\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
@@ -125,7 +124,7 @@ public class UserControllerTests {
     }
 
     private void mockUserServiceAndJwtService() throws UserAlreadyExistsException, WrongCredentialsException, WeakPasswordException {
-        when(userService.createAccount(any(UserDTO.class))).thenReturn(new UserDTO(1, "test_user"));
+        when(userService.createUser(any(UserDTO.class))).thenReturn(new UserDTO(1, "test_user"));
         when(userService.login(any(UserDTO.class))).thenReturn(new UserDTO(1, "test_user"));
         when(jwtService.generateToken(any(UserDTO.class))).thenReturn("dummyToken");
     }

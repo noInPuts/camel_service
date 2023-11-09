@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     // TODO: Automated acceptance test (Cucumber)
     // TODO: Hashing password
     // TODO: Check password is strong enough
-    public UserDTO createAccount(UserDTO userDTO) throws UserAlreadyExistsException, WeakPasswordException {
+    public UserDTO createUser(UserDTO userDTO) throws UserAlreadyExistsException, WeakPasswordException {
 
         // Check if user is already registered
         Optional<User> checkIfUserExist = userRepository.findByUsername(userDTO.getUsername());
