@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +36,16 @@ public class UserServiceTests {
 
         assertEquals(createdUserDTO.getUsername(), userDTO.getUsername());
         assertEquals(createdUserDTO.getId(), 1);
+    }
+
+    @Test
+    public void createUserShouldThrowExceptionWhenUserAlreadyExist() {
+        User user = new User("user", "password");
+        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(user));
+        UserDTO userDTO = new UserDTO("test_user", "password");
+
+        assertThrows(UserAlreadyExistsException.class, () -> userService.createAccount(userDTO));
+
     }
 
     // TODO: Exception test for createAccount

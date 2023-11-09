@@ -115,7 +115,6 @@ public class UserControllerTests {
                 .andExpect(status().isBadRequest());
     }
 
-    @Disabled
     @Test
     public void loginShouldReturn415UnsupportedeMediaTypeWhenParsingInvalidJson() throws Exception {
         mockUserServiceAndJwtService();
@@ -124,7 +123,7 @@ public class UserControllerTests {
                 .andExpect(status().isUnsupportedMediaType());
     }
 
-    public void mockUserServiceAndJwtService() throws UserAlreadyExistsException, WrongCredentialsException {
+    private void mockUserServiceAndJwtService() throws UserAlreadyExistsException, WrongCredentialsException {
         when(userService.createAccount(any(UserDTO.class))).thenReturn(new UserDTO(1, "test_user"));
         when(userService.login(any(UserDTO.class))).thenReturn(new UserDTO(1, "test_user"));
         when(jwtService.generateToken(any(UserDTO.class))).thenReturn("dummyToken");
