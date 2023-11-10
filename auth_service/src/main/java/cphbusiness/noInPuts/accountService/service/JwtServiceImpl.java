@@ -1,6 +1,5 @@
 package cphbusiness.noInPuts.accountService.service;
 
-import cphbusiness.noInPuts.accountService.dto.UserDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,17 +15,14 @@ public class JwtServiceImpl implements JwtService {
     @Value("${jwt.secret}")
     private String pKey;
 
-
-    @Override
-    public String generateToken(UserDTO userDTO) {
-        // Creates secret key from our private key
+    public String tokenGenerator(Long id, String username, String role) {
         SecretKey key = Keys.hmacShaKeyFor(pKey.getBytes());
 
-        // Creates JWT Token and returns it
         return Jwts.builder()
                 .header()
-                .add("id", userDTO.getId())
-                .add("username", userDTO.getUsername())
+                .add("id", id)
+                .add("username", username)
+                .add("role", role)
                 .and()
                 .issuedAt(new Date(System.currentTimeMillis()))
                 // Expires after 2 days of issue
