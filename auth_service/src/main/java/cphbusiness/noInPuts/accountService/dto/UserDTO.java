@@ -3,10 +3,10 @@ package cphbusiness.noInPuts.accountService.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public class UserDTO {
-    private int id;
+    private long id;
+
     @NotBlank(message = "Username is mandatory")
     private String username;
-
 
     @NotBlank(message = "Password is mandatory")
     private String password;
@@ -14,7 +14,7 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(int id, String username) {
+    public UserDTO(long id, String username) {
         this.id = id;
         this.username = username;
     }
@@ -24,11 +24,11 @@ public class UserDTO {
         this.password = password;
     }
 
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

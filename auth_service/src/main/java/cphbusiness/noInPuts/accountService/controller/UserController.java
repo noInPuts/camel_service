@@ -23,7 +23,6 @@ public class UserController {
 
     private final UserService userService;
     private final JwtService jwtService;
-
     private final RabbitMessagePublisher rabbitMessagePublisher;
 
     @Autowired
@@ -51,7 +50,7 @@ public class UserController {
         }
 
         // Genereate JWT token for user
-        String jwtToken = jwtService.generateToken(userDTO);
+        String jwtToken = jwtService.tokenGenerator(userDTO.getId(), userDTO.getUsername(), "user");
 
         // Send out createdUserEvent to RabbitMQ/Apache Camel
         rabbitMessagePublisher.createdUserEvent("User created: " + userDTO.getUsername());
@@ -65,7 +64,7 @@ public class UserController {
     }
 
     // Endpoint for logging in to a user account
-    @PostMapping(value = "/user/login", consumes = "application/json")
+    @PostMapping(value = "/user/login", consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody UserDTO POSTuserDTO) {
 
@@ -78,7 +77,7 @@ public class UserController {
         }
 
         // Generate JWT token for user
-        String jwtToken = jwtService.generateToken(userDTO);
+        String jwtToken = jwtService.tokenGenerator(userDTO.getId(), userDTO.getUsername(), "user");
 
         // Creates response entity with userDTO and JWT token
         Map<String,Object> response = new HashMap<>();

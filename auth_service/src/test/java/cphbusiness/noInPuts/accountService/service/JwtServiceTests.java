@@ -12,6 +12,7 @@ import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest
 public class JwtServiceTests {
@@ -27,7 +28,7 @@ public class JwtServiceTests {
         ReflectionTestUtils.setField(jwtService, "pKey", mockedPrivateKey);
 
         UserDTO userDTO = new UserDTO("test_user", "Password1!");
-        String jwtToken = jwtService.generateToken(userDTO);
+        String jwtToken = jwtService.tokenGenerator(userDTO.getId(), userDTO.getUsername(), "user");
 
         assertEquals(String.class, jwtToken.getClass());
     }

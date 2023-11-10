@@ -9,24 +9,22 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     @Column(nullable = false)
     private String username;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
-    private String role;
+
     public User() {
     }
 
     public User(String username, String password) {
        this.username = username;
        this.password = password;
-       this.role = "user";
     }
 
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 
@@ -46,12 +44,8 @@ public class User {
         this.username = username;
     }
 
-    // For testing purposes
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
-    }
 }
