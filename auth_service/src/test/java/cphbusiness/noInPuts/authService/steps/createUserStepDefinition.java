@@ -1,0 +1,57 @@
+package cphbusiness.noInPuts.authService.steps;
+
+import cphbusiness.noInPuts.authService.CucumberIntegrationTest;
+import cphbusiness.noInPuts.authService.model.User;
+import cphbusiness.noInPuts.authService.repository.UserRepository;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+public class createUserStepDefinition extends CucumberIntegrationTest {
+
+    // TODO: More tests
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Given("I want to create a user with username as \"my_user\" and the password as \"ThisIsMyPassword!1\"")
+    public void i_want_to_create_a_user_with_username_as_my_user_and_the_password_as_ThisIsMyPassword_1() {
+    }
+
+    @When("I make a POST request to {string} with the following body:")
+    public void i_make_a_post_request_to_with_the_following_body_parameters(String endpoint, io.cucumber.datatable.DataTable dataTable) throws Exception {
+        List<Map<String, String>> dataList = dataTable.asMaps(String.class, String.class);
+
+        this.mockMvc.perform(post(endpoint).content("{ \"username\": \"" + dataList.get(0).get("username") + "\", \"password\": \"" + dataList.get(0).get("password") + "\"}").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
+                .andExpect(status().isCreated());
+
+    }
+
+    @Then("a user is created in the database with the following properties:")
+    public void a_user_is_created_in_the_database_with_the_following_properties(io.cucumber.datatable.DataTable dataTable) {
+        List<Map<String, String>> dataList = dataTable.asMaps(String.class, String.class);
+
+        Optional<User> userOptional = userRepository.findByUsername(dataList.get(0).get("username"));
+        assertTrue(userOptional.isPresent());
+
+        User user = userOptional.get();
+        assertEquals(dataList.get(0).get("username"), user.getUsername());
+        assertEquals(dataList.get(0).get("password"), user.getPassword());
+        assertEquals(Long.parseLong(dataList.get(0).get("id")), user.getId());
+    }
+}
