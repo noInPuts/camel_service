@@ -5,9 +5,9 @@ import cphbusiness.noInPuts.authService.exception.UserAlreadyExistsException;
 import cphbusiness.noInPuts.authService.exception.UserDoesNotExistException;
 import cphbusiness.noInPuts.authService.exception.WeakPasswordException;
 import cphbusiness.noInPuts.authService.exception.WrongCredentialsException;
-import cphbusiness.noInPuts.authService.service.UserService;
 import cphbusiness.noInPuts.authService.service.JwtService;
 import cphbusiness.noInPuts.authService.service.RabbitMessagePublisher;
+import cphbusiness.noInPuts.authService.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,7 +80,7 @@ public class UserController {
         String jwtToken = jwtService.tokenGenerator(userDTO.getId(), userDTO.getUsername(), "user");
 
         // Creates response entity with userDTO and JWT token
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("user", userDTO);
         response.put("jwtToken", jwtToken);
 

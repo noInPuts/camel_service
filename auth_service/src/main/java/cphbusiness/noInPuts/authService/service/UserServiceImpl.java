@@ -24,13 +24,12 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    // TODO: Automated acceptance test (Cucumber)
     // TODO: Hashing password
     public UserDTO createUser(UserDTO userDTO) throws UserAlreadyExistsException, WeakPasswordException {
 
         // Check if user is already registered
         Optional<User> checkIfUserExist = userRepository.findByUsername(userDTO.getUsername());
-        if(checkIfUserExist.isPresent()) {
+        if (checkIfUserExist.isPresent()) {
             throw new UserAlreadyExistsException("User already exists");
         }
 
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService {
         String regex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?!.*\\s).*$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(userDTO.getPassword());
-        if(!matcher.matches()) {
+        if (!matcher.matches()) {
             throw new WeakPasswordException("Password is not strong enough");
         }
 

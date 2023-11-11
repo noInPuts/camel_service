@@ -53,7 +53,7 @@ public class UserServiceTests {
     @Test
     public void createUserShouldThrowExceptionWhenPasswordIsToWeak() {
         // Create userDTO with weak password
-        UserDTO userDTO  = new UserDTO("test_user", "weak");
+        UserDTO userDTO = new UserDTO("test_user", "weak");
 
         assertThrows(WeakPasswordException.class, () -> userService.createUser(userDTO));
     }

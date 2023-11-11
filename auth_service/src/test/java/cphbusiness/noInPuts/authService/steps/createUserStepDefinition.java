@@ -3,28 +3,25 @@ package cphbusiness.noInPuts.authService.steps;
 import cphbusiness.noInPuts.authService.CucumberIntegrationTest;
 import cphbusiness.noInPuts.authService.model.User;
 import cphbusiness.noInPuts.authService.repository.UserRepository;
-import cphbusiness.noInPuts.authService.service.RabbitMessagePublisher;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class createUserStepDefinition extends CucumberIntegrationTest {
+
+    // TODO: More tests
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,6 +53,5 @@ public class createUserStepDefinition extends CucumberIntegrationTest {
         assertEquals(dataList.get(0).get("username"), user.getUsername());
         assertEquals(dataList.get(0).get("password"), user.getPassword());
         assertEquals(Long.parseLong(dataList.get(0).get("id")), user.getId());
-
     }
 }

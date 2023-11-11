@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
 
     private final AdminRepository adminRepository;
 
@@ -22,10 +22,10 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public AdminDTO login(AdminDTO adminDTO) throws WrongCredentialsException, UserDoesNotExistException {
-        Optional<Admin> optionalAdminUser =  adminRepository.findByUsername(adminDTO.getUsername());
-        if(optionalAdminUser.isPresent()) {
+        Optional<Admin> optionalAdminUser = adminRepository.findByUsername(adminDTO.getUsername());
+        if (optionalAdminUser.isPresent()) {
             Admin adminUser = optionalAdminUser.get();
-            if(adminUser.getPassword().equals(adminDTO.getPassword())) {
+            if (adminUser.getPassword().equals(adminDTO.getPassword())) {
                 return new AdminDTO(adminUser.getId(), adminUser.getUsername(), null);
             } else {
                 throw new WrongCredentialsException("Wrong password");
