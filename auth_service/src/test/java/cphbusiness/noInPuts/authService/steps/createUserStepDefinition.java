@@ -9,7 +9,7 @@ import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
+import io.cucumber.datatable.DataTable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,7 +34,7 @@ public class createUserStepDefinition extends CucumberIntegrationTest {
     }
 
     @When("I make a POST request to {string} with the following body:")
-    public void i_make_a_post_request_to_with_the_following_body_parameters(String endpoint, io.cucumber.datatable.DataTable dataTable) throws Exception {
+    public void i_make_a_post_request_to_with_the_following_body_parameters(String endpoint, DataTable dataTable) throws Exception {
         List<Map<String, String>> dataList = dataTable.asMaps(String.class, String.class);
 
         this.mockMvc.perform(post(endpoint).content("{ \"username\": \"" + dataList.get(0).get("username") + "\", \"password\": \"" + dataList.get(0).get("password") + "\"}").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
