@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class AdminServerTests {
+public class AdminServiceTests {
 
     @Autowired
     private AdminService adminService;
