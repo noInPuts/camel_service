@@ -2,6 +2,8 @@ package cphbusiness.noInPuts.authService.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Table(name = "restaurants")
 @Entity
 public class Restaurant {
@@ -12,6 +14,16 @@ public class Restaurant {
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RestaurantEmployee> employees;
+
+    public Restaurant() {
+    }
+
+    public Restaurant(String name) {
+        this.name = name;
+    }
 
     public void setId(Long id) {
         this.id = id;
