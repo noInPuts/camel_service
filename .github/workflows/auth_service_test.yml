@@ -36,6 +36,7 @@ jobs:
     
     - name: Build and push
       uses: docker/build-push-action@v5
+      working-directory: ./auth_service  
       with:
         context: .
         file: ./Dockerfile
