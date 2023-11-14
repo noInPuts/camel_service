@@ -1,6 +1,9 @@
 package cphbusiness.noinputs.main.service;
 
+import cphbusiness.noinputs.main.dto.FoodItemDTO;
 import cphbusiness.noinputs.main.dto.RestaurantDTO;
+import cphbusiness.noinputs.main.exception.RestaurantNotFoundException;
+import cphbusiness.noinputs.main.model.FoodItem;
 import cphbusiness.noinputs.main.model.Restaurant;
 import cphbusiness.noinputs.main.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +32,17 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
 
         return restaurantsDTOs;
+    }
+
+    public RestaurantDTO getRestaurant(Long id) throws RestaurantNotFoundException {
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(
+                () -> new RestaurantNotFoundException("Restaurant with id " + id + " not found"));
+
+        List<FoodItemDTO> menu = new ArrayList<>();
+        for (FoodItem foodItem : restaurant.getMenu()) {
+            menu.add(new FoodItemDTO(foodItem.getId(), foodItem.getName(), foodItem.getPrice()));
+        }
+
+        return new RestaurantDTO(restaurant.getId(), restaurant.getName(), menu);
     }
 }
