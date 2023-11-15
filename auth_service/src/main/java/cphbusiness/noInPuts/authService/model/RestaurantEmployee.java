@@ -9,9 +9,6 @@ public class RestaurantEmployee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
@@ -25,8 +22,14 @@ public class RestaurantEmployee {
     public RestaurantEmployee() {
     }
 
-    public RestaurantEmployee(String name, String username, String password,Restaurant restaurant) {
-        this.name = name;
+    public RestaurantEmployee(String username, String password, Restaurant restaurant) {
+        this.restaurant = restaurant;
+        this.username = username;
+        this.password = password;
+    }
+
+    public RestaurantEmployee(Long id, String username, String password, Restaurant restaurant) {
+        this.id = id;
         this.restaurant = restaurant;
         this.username = username;
         this.password = password;
@@ -38,14 +41,6 @@ public class RestaurantEmployee {
 
     public Long getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Restaurant getRestaurant() {

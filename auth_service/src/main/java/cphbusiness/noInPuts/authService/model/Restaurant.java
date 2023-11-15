@@ -21,6 +21,12 @@ public class Restaurant {
     public Restaurant() {
     }
 
+    public Restaurant(Long id, String name, List<RestaurantEmployee> employees) {
+        this.id = id;
+        this.name = name;
+        this.employees = employees;
+    }
+
     public Restaurant(String name) {
         this.name = name;
     }
@@ -39,5 +45,13 @@ public class Restaurant {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<RestaurantEmployee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<RestaurantEmployee> employees) {
+        this.employees = employees;
     }
 }
