@@ -35,6 +35,8 @@ public class userLoginStepDefinition extends CucumberIntegrationTest {
     private String password = null;
     private String jwtToken;
 
+    private MvcResult result;
+
     @Given("I want to login, onto the {string} account with {string} as the password")
     public void i_want_to_login_onto_the_test_user(String username, String password) {
         User user = new User(username, password);
@@ -69,5 +71,24 @@ public class userLoginStepDefinition extends CucumberIntegrationTest {
         assertEquals(id, Long.parseLong(dataList.get(0).get("id")));
         assertNotNull(jwtToken);
         assertNull(password);
+    }
+
+    @Given("I want to make login request, with the following credentials {string} {string}")
+    public void i_want_to_login_onto_the_test_user_account_with_pAssword_1_as_the_password(String username, String password) {
+        User user = new User(username, password);
+        userRepository.save(user);
+    }
+
+    @When("I make a login POST request with wrong password to {string} with the following body:")
+    public void i_make_a_login_post_request_to_with_the_following_body(String endpoint, DataTable dataTable) throws Exception {
+        List<Map<String, String>> dataList = dataTable.asMaps(String.class, String.class);
+
+         result = this.mockMvc.perform(post(endpoint).content("{ \"username\": \"" + dataList.get(0).get("username") + "\", \"password\": \"" + dataList.get(0).get("password") +"\" }").contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+    }
+
+    @Then("I should receive a 401 status code")
+    public void i_should_receive_a_401_status_code() throws Exception {
+        assertEquals(401, result.getResponse().getStatus());
     }
 }

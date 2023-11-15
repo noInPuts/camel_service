@@ -8,3 +8,12 @@ Feature: Creating a new user account
     Then a user is created in the database with the following properties:
       | username | id | password           |
       | my_user  | 1  | ThisIsMyPassword!1 |
+
+  Scenario: User account creation with weak password
+    Given I want to create a user with username as "my_user" and the weak password as "weak"
+    When I make a request to "/user/create" with the following body:
+      | username | password |
+      | my_user  | weak     |
+    Then A user is not created in the database with the following properties:
+      | username | id | password |
+      | my_user  | 1  | weak     |

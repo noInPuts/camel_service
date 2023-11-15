@@ -9,3 +9,9 @@ Feature: Logging in which returns the user object and a JWT Token
       | username | password | id | jwt |
       | test_user | null | 1 | token |
 
+  Scenario: User logging in with incorrect password
+    Given I want to make login request, with the following credentials "test_user" "pAssword!1"
+    When I make a login POST request with wrong password to "/user/login" with the following body:
+      | username | password |
+      | test_user | wrong_password |
+    Then I should receive a 401 status code
