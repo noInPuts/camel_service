@@ -13,12 +13,12 @@ export default function NavBar() {
 
     return (
         <>
-        <div className="jumbotron">
-        <div className="container text-center">
-          <h1>MTOGO</h1>      
-        </div>
-      </div>
-            <Navbar expand="lg" bg="success" data-bs-theme="dark">
+            <div className="jumbotron">
+                <div className="container text-center">
+                    <h1>MTOGO</h1>
+                </div>
+            </div>
+            <Navbar expand="lg" bg="success" data-bs-theme="dark" className="navbar">
                 <Container>
                     <Navbar.Brand href="/">MTOGO</Navbar.Brand>
                     <Navbar.Toggle aria-controls="menu-navbar" />
@@ -64,10 +64,53 @@ export default function NavBar() {
                                 </OverlayTrigger>
                             ))}
                             <Nav.Link href="#">My Account</Nav.Link>
-                            <Nav.Link href="#">cart <Badge pill bg="danger">9</Badge></Nav.Link>
 
 
+                            {['bottom'].map((placement) => (
+                                <OverlayTrigger
+                                    trigger="click"
+                                    key={placement}
+                                    placement={'bottom'}
+                                    overlay={
+                                        <Popover id={`popover-positioned-${placement}`}>
+                                            <Popover.Header as="h3">{`cart`}</Popover.Header>
+                                            <Popover.Body>
+                                                <div className="col-md-4">
+                                                    <div className="card mb-4">
 
+                                                        <div className="card-body">
+                                                            <ul className="list-group list-group-flush">
+                                                                <li
+                                                                    className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                                                    Products
+                                                                    <span>$53.98</span>
+                                                                </li>
+                                                                <li className="list-group-item d-flex justify-content-between align-items-center px-0">
+                                                                    Shipping
+                                                                    <span>Gratis</span>
+                                                                </li>
+                                                                <li
+                                                                    className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                                                    <div>
+                                                                        <strong>Total amount</strong>
+                                                                        <strong>
+                                                                            <p className="mb-0">(including VAT)</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <span><strong>$53.98</strong></span>
+                                                                </li>
+                                                            </ul>
+
+                                                            <button type="button" className="btn btn-primary btn-lg btn-block">
+                                                                Go to checkout
+                                                            </button></div></div></div>
+                                            </Popover.Body>
+                                        </Popover>
+                                    }
+                                >
+                                    <Button variant="secondary">cart <Badge pill bg="danger">9</Badge></Button>
+                                </OverlayTrigger>
+                            ))}
 
 
 
