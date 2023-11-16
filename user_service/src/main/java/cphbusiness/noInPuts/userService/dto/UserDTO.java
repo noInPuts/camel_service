@@ -1,4 +1,4 @@
-package cphbusiness.noInPuts.dto;
+package cphbusiness.noInPuts.userService.dto;
 
 
 import jakarta.validation.constraints.NotBlank;
