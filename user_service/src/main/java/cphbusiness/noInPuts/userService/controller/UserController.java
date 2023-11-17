@@ -2,6 +2,7 @@ package cphbusiness.noInPuts.userService.controller;
 
 
 import cphbusiness.noInPuts.userService.dto.UserDTO;
+import cphbusiness.noInPuts.userService.exception.UserNotFoundException;
 import cphbusiness.noInPuts.userService.service.JwtService;
 import cphbusiness.noInPuts.userService.service.UserService;
 import jakarta.validation.Valid;
@@ -25,15 +26,28 @@ public class UserController {
 
     @PostMapping(value = "/user/create", produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO postUserDTO, @CookieValue("jwt-token") String jwtToken) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO postUserDTO, @Valid @CookieValue("jwt-token") String jwtToken) {
         Long userIdFromToken = jwtService.getUserIdFromToken(jwtToken);
 
         if(!userIdFromToken.equals(postUserDTO.getId())) {
-            return new ResponseEntity<>("{\"error\": \"You are not allowed to create a user with a different id than your own\"}", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         UserDTO userDTO = userService.createUser(postUserDTO);
 
-        return new ResponseEntity<>(userDTO.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/user", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<UserDTO> getUser(@Valid @CookieValue("jwt-token") String jwtToken) {
+        Long userIdFromToken = jwtService.getUserIdFromToken(jwtToken);
+
+        try {
+            UserDTO userDTO = userService.getUser(userIdFromToken);
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

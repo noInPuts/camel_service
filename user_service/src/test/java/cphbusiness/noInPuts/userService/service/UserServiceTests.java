@@ -35,4 +35,17 @@ public class UserServiceTests {
         assertEquals(userDTO.getPhoneNumber(), userDTOPersisted.getPhoneNumber());
         assertEquals(userDTO.getAddress(), userDTOPersisted.getAddress());
     }
+
+    @Test
+    public void getUserShouldReturnUserDTO() throws Exception {
+        when(userRepository.findById(any(Long.class))).thenReturn(java.util.Optional.of(new User(1L, "name", "email", "phoneNumber", "address")));
+        UserDTO userDTO = new UserDTO(1L, "name", "email", "phoneNumber", "address");
+        UserDTO userDTOPersisted = userService.getUser(1L);
+
+        assertEquals(userDTO.getId(), userDTOPersisted.getId());
+        assertEquals(userDTO.getName(), userDTOPersisted.getName());
+        assertEquals(userDTO.getEmail(), userDTOPersisted.getEmail());
+        assertEquals(userDTO.getPhoneNumber(), userDTOPersisted.getPhoneNumber());
+        assertEquals(userDTO.getAddress(), userDTOPersisted.getAddress());
+    }
 }
