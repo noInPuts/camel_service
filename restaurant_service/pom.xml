@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cphbusiness.noInPuts</groupId>
-    <artifactId>main</artifactId>
+    <artifactId>restaurant_service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>RestaurantService</name>
+    <name>restaurant_service</name>
     <description>RestaurantService</description>
     <properties>
         <java.version>17</java.version>

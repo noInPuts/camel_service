@@ -1,9 +1,10 @@
-name: Restaurant Service test
+name: User service test
 
 on:
   pull_request: 
     branches:
       - '*'
+
 jobs:
   build:
 
@@ -19,5 +20,5 @@ jobs:
         java-version: '17'  
 
     - name: Running tests
-      working-directory: ./restaurant_service  
+      working-directory: ./user_service   
       run: mvn clean test -q
