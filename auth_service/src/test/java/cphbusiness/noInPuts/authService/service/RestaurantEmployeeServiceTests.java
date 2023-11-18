@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
 import java.util.Optional;
 
@@ -26,6 +27,9 @@ public class RestaurantEmployeeServiceTests {
     @MockBean
     private RestaurantEmployeeRepository restaurantEmployeeRepository;
 
+    private final Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 32, 1, 128 * 1024, 5);
+
+
     @Test
     public void loginShouldReturnEmployeeObject() throws UserDoesNotExistException, WrongCredentialsException {
         Faker faker = new Faker();
@@ -34,7 +38,7 @@ public class RestaurantEmployeeServiceTests {
 
         String restaurantName = faker.restaurant().name();
 
-        when(restaurantEmployeeRepository.findByUsername(username)).thenReturn(Optional.of(new RestaurantEmployee(1L, username, password, new Restaurant(1L, restaurantName, null))));
+        when(restaurantEmployeeRepository.findByUsername(username)).thenReturn(Optional.of(new RestaurantEmployee(1L, username, argon2PasswordEncoder.encode(password), new Restaurant(1L, restaurantName, null))));
 
         RestaurantEmployeeDTO restaurantEmployee = restaurantEmployeeService.login(username, password);
 
@@ -58,7 +62,7 @@ public class RestaurantEmployeeServiceTests {
 
         String restaurantName = faker.restaurant().name();
 
-        when(restaurantEmployeeRepository.findByUsername(username)).thenReturn(Optional.of(new RestaurantEmployee(1L, username, password, new Restaurant(1L, restaurantName, null))));
+        when(restaurantEmployeeRepository.findByUsername(username)).thenReturn(Optional.of(new RestaurantEmployee(1L, username, argon2PasswordEncoder.encode(password), new Restaurant(1L, restaurantName, null))));
 
 
         assertThrows(WrongCredentialsException.class, () -> {

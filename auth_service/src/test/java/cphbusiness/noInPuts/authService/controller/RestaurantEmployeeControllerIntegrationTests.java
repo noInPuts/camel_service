@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,12 +31,15 @@ public class RestaurantEmployeeControllerIntegrationTests {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    private final Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 32, 1, 128 * 1024, 5);
+
+
     @Test
     public void loginShouldReturnWithID() throws Exception {
         Faker faker = new Faker();
         Restaurant restaurant = new Restaurant(faker.restaurant().name());
         Restaurant restaurantEntity = restaurantRepository.save(restaurant);
-        RestaurantEmployee restaurantEmployee = new RestaurantEmployee("employee_user", "Password1!", restaurantEntity);
+        RestaurantEmployee restaurantEmployee = new RestaurantEmployee("employee_user", argon2PasswordEncoder.encode("Password1!"), restaurantEntity);
         restaurantEmployeeRepository.save(restaurantEmployee);
 
         this.mockMvc.perform(post("/restaurantEmployee/login").content("{ \"username\": \"employee_user\", \"password\": \"Password1!\" }").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
@@ -62,7 +66,7 @@ public class RestaurantEmployeeControllerIntegrationTests {
         Faker faker = new Faker();
         Restaurant restaurant = new Restaurant(faker.restaurant().name());
         Restaurant restaurantEntity = restaurantRepository.save(restaurant);
-        RestaurantEmployee restaurantEmployee = new RestaurantEmployee("employee_user", "Password1!", restaurantEntity);
+        RestaurantEmployee restaurantEmployee = new RestaurantEmployee("employee_user", argon2PasswordEncoder.encode("Password1!"), restaurantEntity);
         restaurantEmployeeRepository.save(restaurantEmployee);
 
         this.mockMvc.perform(post("/restaurantEmployee/login").content("{ \"username\": \"employee_user\", \"password\": \"Password2!\" }").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))

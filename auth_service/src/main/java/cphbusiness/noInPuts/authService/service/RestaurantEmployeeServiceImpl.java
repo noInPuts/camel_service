@@ -7,6 +7,7 @@ import cphbusiness.noInPuts.authService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.authService.model.RestaurantEmployee;
 import cphbusiness.noInPuts.authService.repository.RestaurantEmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,9 +17,13 @@ public class RestaurantEmployeeServiceImpl implements RestaurantEmployeeService 
 
     private final RestaurantEmployeeRepository restaurantEmployeeRepository;
 
+    // TODO: make this own class and autowire it?
+    private final Argon2PasswordEncoder argon2PasswordEncoder;
+
     @Autowired
     public RestaurantEmployeeServiceImpl(RestaurantEmployeeRepository restaurantEmployeeRepository) {
         this.restaurantEmployeeRepository = restaurantEmployeeRepository;
+        this.argon2PasswordEncoder = new Argon2PasswordEncoder(16, 32, 1, 128 * 1024, 5);
     }
 
     public RestaurantEmployeeDTO login(String username, String password) throws UserDoesNotExistException, WrongCredentialsException {
@@ -27,7 +32,7 @@ public class RestaurantEmployeeServiceImpl implements RestaurantEmployeeService 
         if(restaurantEmployeeOptional.isPresent()) {
             RestaurantEmployee restaurantEmployee = restaurantEmployeeOptional.get();
 
-            if(!restaurantEmployee.getPassword().equals(password)) {
+            if(!argon2PasswordEncoder.matches(password, restaurantEmployee.getPassword())) {
                 throw new WrongCredentialsException("Wrong password");
             }
 
