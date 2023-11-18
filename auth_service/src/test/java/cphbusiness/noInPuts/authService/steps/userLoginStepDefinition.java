@@ -6,6 +6,7 @@ import cphbusiness.noInPuts.authService.repository.UserRepository;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import jakarta.servlet.http.Cookie;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -52,9 +53,12 @@ public class userLoginStepDefinition extends CucumberIntegrationTest {
                 .andReturn();
 
         String responseBody = result.getResponse().getContentAsString();
+        Cookie cookie = result.getResponse().getCookie("jwt-token");
+
         JSONObject jsonResponse = new JSONObject(responseBody);
         JSONObject userJson = jsonResponse.getJSONObject("user");
-        jwtToken = jsonResponse.getString("jwtToken");
+        assert cookie != null;
+        jwtToken = cookie.getValue();
         username = userJson.getString("username");
         id = userJson.getLong("id");
         if (jsonResponse.has("password")) {

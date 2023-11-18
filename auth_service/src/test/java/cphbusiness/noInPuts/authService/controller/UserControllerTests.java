@@ -8,6 +8,7 @@ import cphbusiness.noInPuts.authService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.authService.service.JwtService;
 import cphbusiness.noInPuts.authService.service.RabbitMessagePublisher;
 import cphbusiness.noInPuts.authService.service.UserService;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -132,6 +133,20 @@ public class UserControllerTests {
 
         this.mockMvc.perform(post("/user/login").content("not json").characterEncoding("UTF-8"))
                 .andExpect(status().isUnsupportedMediaType());
+    }
+
+    @Test
+    public void logoutShouldReturnBadRequestWhenNotParsingJWTToken() throws Exception {
+        this.mockMvc.perform(post("/user/logout").content("not json").characterEncoding("UTF-8"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void logout() throws Exception {
+        Cookie cookie = new Cookie("jwt-token", "dummyToken");
+
+        this.mockMvc.perform(post("/user/logout").cookie(cookie))
+                .andExpect(status().isOk());
     }
 
     private void mockUserServiceAndJwtService() throws UserAlreadyExistsException, WrongCredentialsException, WeakPasswordException, UserDoesNotExistException {

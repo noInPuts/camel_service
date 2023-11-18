@@ -1,13 +1,12 @@
 package cphbusiness.noInPuts.authService.controller;
 
 import cphbusiness.noInPuts.authService.dto.UserDTO;
-import cphbusiness.noInPuts.authService.exception.UserAlreadyExistsException;
-import cphbusiness.noInPuts.authService.exception.UserDoesNotExistException;
-import cphbusiness.noInPuts.authService.exception.WeakPasswordException;
-import cphbusiness.noInPuts.authService.exception.WrongCredentialsException;
+import cphbusiness.noInPuts.authService.exception.*;
 import cphbusiness.noInPuts.authService.service.JwtService;
 import cphbusiness.noInPuts.authService.service.RabbitMessagePublisher;
 import cphbusiness.noInPuts.authService.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,7 +65,7 @@ public class UserController {
     // Endpoint for logging in to a user account
     @PostMapping(value = "/user/login", consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody UserDTO POSTuserDTO) {
+    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody UserDTO POSTuserDTO, HttpServletResponse servletResponse) {
 
         // Check for correct credentials
         UserDTO userDTO;
@@ -82,8 +81,37 @@ public class UserController {
         // Creates response entity with userDTO and JWT token
         Map<String, Object> response = new HashMap<>();
         response.put("user", userDTO);
-        response.put("jwtToken", jwtToken);
+
+        Cookie cookie = new Cookie("jwt-token", jwtToken);
+
+        // cookie expires in 2 days
+        cookie.setMaxAge(2 * 24 * 60 * 60);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        servletResponse.addCookie(cookie);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/user/logout")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> logout(@Valid @CookieValue("jwt-token") String jwtToken, HttpServletResponse servletResponse) {
+
+        if(jwtToken.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            jwtService.logout(jwtToken);
+        } catch (AlreadyLoggedOutException e) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        Cookie deleteCookie = new Cookie("jwt-token", null);
+        deleteCookie.setMaxAge(0);
+
+        servletResponse.addCookie(deleteCookie);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
