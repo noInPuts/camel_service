@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -36,7 +37,8 @@ public class adminLoginStepDefinition extends CucumberIntegrationTest {
 
     @Given("I have an admin account in the DB with username {string} and password {string}")
     public void i_have_an_admin_account_in_the_db_with_username_and_password(String username, String password) {
-        adminRepository.save(new Admin(username, password));
+        Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 32, 1, 128 * 1024, 5);
+        adminRepository.save(new Admin(username, argon2PasswordEncoder.encode(password)));
     }
 
     @When("I make a admin login POST request to {string} with the following body")
