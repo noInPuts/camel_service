@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cphbusiness.noInPuts</groupId>
-	<artifactId>apache_camel</artifactId>
+	<artifactId>integration_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>apache_camel</name>
+	<name>integration_service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>

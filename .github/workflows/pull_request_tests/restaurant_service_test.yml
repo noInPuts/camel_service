@@ -1,16 +1,13 @@
 name: Restaurant Service test
 
 on:
-  push:
-    branches:
-      - main  
   pull_request: 
     branches:
       - '*'
 jobs:
   build:
 
-    runs-on: ubuntu-22.04 # Possible change
+    runs-on: ubuntu-22.04 
 
     steps:
     - name: Checkout code
