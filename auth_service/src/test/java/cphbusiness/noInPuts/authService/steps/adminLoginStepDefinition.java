@@ -57,7 +57,7 @@ public class adminLoginStepDefinition extends CucumberIntegrationTest {
         JSONObject adminUserJson = jsonResponse.getJSONObject("user");
 
         assertEquals(statusCode, response.getStatus());
-        assertNotNull(jsonResponse.getString("jwt"));
+        assertNotNull(response.getCookie("jwt-token"));
         assertEquals(dataList.get(0).get("username"), adminUserJson.getString("username"));
         assertEquals(Long.parseLong(dataList.get(0).get("id")), adminUserJson.getLong("id"));
     }

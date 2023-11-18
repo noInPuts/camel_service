@@ -36,7 +36,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     // TODO: Swagger documentation
     // TODO: Spam check
-    public ResponseEntity<Map<String, Object>> createUser(@Valid @RequestBody UserDTO POSTuserDTO) {
+    public ResponseEntity<Map<String, Object>> createUser(@Valid @RequestBody UserDTO POSTuserDTO, HttpServletResponse servletResponse) {
 
         // Catch exception if user already exists else create entity in DB
         UserDTO userDTO;
@@ -57,6 +57,13 @@ public class UserController {
         // Creates response entity with userDTO and JWT token
         Map<String, Object> response = new HashMap<>();
         response.put("user", userDTO);
+        Cookie cookie = new Cookie("jwt-token", jwtToken);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(2 * 24 * 60 * 60);
+
+        servletResponse.addCookie(cookie);
+
+
         response.put("jwtToken", jwtToken);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);

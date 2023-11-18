@@ -36,7 +36,7 @@ public class AdminControllerIntegrationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{\"user\": { \"id\":1,\"username\":\"admin\"}}"))
-                .andExpect(jsonPath("$.jwt").isString());
+                .andExpect(cookie().exists("jwt-token"));
     }
 
     @Test

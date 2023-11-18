@@ -5,6 +5,8 @@ import cphbusiness.noInPuts.authService.exception.UserDoesNotExistException;
 import cphbusiness.noInPuts.authService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.authService.service.AdminService;
 import cphbusiness.noInPuts.authService.service.JwtService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +31,7 @@ public class AdminController {
 
     @PostMapping(value = "/admin/login", consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody AdminDTO postAdminDTO) throws UserDoesNotExistException {
+    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody AdminDTO postAdminDTO, HttpServletResponse servletResponse) throws UserDoesNotExistException {
         AdminDTO adminUser;
         try {
             adminUser = adminService.login(postAdminDTO);
@@ -38,9 +40,16 @@ public class AdminController {
         }
         String JwtToken = jwtService.tokenGenerator(adminUser.getId(), adminUser.getUsername(), "admin");
 
+        // TODO: Remove map
         Map<String, Object> response = new HashMap<>();
         response.put("user", adminUser);
-        response.put("jwt", JwtToken);
+
+        Cookie cookie = new Cookie("jwt-token", JwtToken);
+        cookie.setHttpOnly(true);
+
+        // Cookie is set to expire in 24 hours
+        cookie.setMaxAge(24 * 60 * 60);
+        servletResponse.addCookie(cookie);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
