@@ -55,7 +55,6 @@ public class createUserStepDefinition extends CucumberIntegrationTest {
 
         User user = userOptional.get();
         assertEquals(dataList.get(0).get("username"), user.getUsername());
-        assertEquals(dataList.get(0).get("password"), user.getPassword());
         assertEquals(Long.parseLong(dataList.get(0).get("id")), user.getId());
     }
 

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
 import java.util.Optional;
 
@@ -27,6 +28,8 @@ public class UserServiceTests {
 
     @MockBean
     private UserRepository userRepository;
+
+    private final Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 32, 1, 128 * 1024, 5);
 
     @Test
     public void createUserShouldReturnWithID() throws UserAlreadyExistsException, WeakPasswordException {
@@ -60,7 +63,7 @@ public class UserServiceTests {
 
     @Test
     public void loginShouldReturnUserWithID() throws WrongCredentialsException, UserDoesNotExistException {
-        User userEntity = new User("test_user", "Password1!");
+        User userEntity = new User("test_user", argon2PasswordEncoder.encode("Password1!"));
         userEntity.setId(1);
         when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(userEntity));
 
@@ -78,7 +81,7 @@ public class UserServiceTests {
 
     @Test
     public void loginShouldThrowExceptionWhenPasswordIsWrong() {
-        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(new User("test_user", "Password1!")));
+        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(new User("test_user", argon2PasswordEncoder.encode("Password1!"))));
 
         assertThrows(WrongCredentialsException.class, () -> userService.login(new UserDTO("test_user", "Password2!")));
 

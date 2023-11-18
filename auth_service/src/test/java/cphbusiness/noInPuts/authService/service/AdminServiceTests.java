@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
 import java.util.Optional;
 
@@ -25,9 +26,11 @@ public class AdminServiceTests {
     @MockBean
     private AdminRepository adminRepository;
 
+    private final Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 32, 1, 128 * 1024, 5);
+
     @Test
     public void loginShouldReturnAdmin() throws UserDoesNotExistException, WrongCredentialsException {
-        when(adminRepository.findByUsername(any(String.class))).thenReturn(Optional.of(new Admin(1L, "admin", "Password1!")));
+        when(adminRepository.findByUsername(any(String.class))).thenReturn(Optional.of(new Admin(1L, "admin", argon2PasswordEncoder.encode("Password1!"))));
 
         AdminDTO adminUser = adminService.login(new AdminDTO("admin", "Password1!"));
 
@@ -39,7 +42,7 @@ public class AdminServiceTests {
 
     @Test
     public void loginShouldReturnUserWithID() throws WrongCredentialsException, UserDoesNotExistException {
-        Admin adminEntity = new Admin(1L, "admin", "Password1!");
+        Admin adminEntity = new Admin(1L, "admin", argon2PasswordEncoder.encode("Password1!"));
         when(adminRepository.findByUsername(any(String.class))).thenReturn(Optional.of(adminEntity));
 
         AdminDTO adminUser = adminService.login(new AdminDTO("admin", "Password1!"));
@@ -57,7 +60,7 @@ public class AdminServiceTests {
 
     @Test
     public void loginShouldThrowExceptionWhenPasswordIsWrong() {
-        Admin adminEntity = new Admin(1L, "admin", "Password1!");
+        Admin adminEntity = new Admin(1L, "admin", argon2PasswordEncoder.encode("Password1!"));
         when(adminRepository.findByUsername(any(String.class))).thenReturn(Optional.of(adminEntity));
 
         assertThrows(WrongCredentialsException.class, () -> adminService.login(new AdminDTO("admin", "Password2!")));

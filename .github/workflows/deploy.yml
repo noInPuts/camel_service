@@ -1,4 +1,4 @@
-name: Auth service test
+name: Deploy
 
 on:
   push: 
