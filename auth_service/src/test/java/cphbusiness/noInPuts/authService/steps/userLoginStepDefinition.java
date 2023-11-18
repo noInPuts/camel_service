@@ -9,6 +9,7 @@ import io.cucumber.java.en.When;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import io.cucumber.datatable.DataTable;
@@ -23,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class userLoginStepDefinition extends CucumberIntegrationTest {
 
-    // TODO: More tests
     @Autowired
     private UserRepository userRepository;
 
@@ -34,12 +34,12 @@ public class userLoginStepDefinition extends CucumberIntegrationTest {
     private Long id;
     private String password = null;
     private String jwtToken;
-
     private MvcResult result;
+    private final Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 32, 1, 128 * 1024, 5);
 
     @Given("I want to login, onto the {string} account with {string} as the password")
     public void i_want_to_login_onto_the_test_user(String username, String password) {
-        User user = new User(username, password);
+        User user = new User(username, argon2PasswordEncoder.encode(password));
         userRepository.save(user);
     }
 
@@ -75,7 +75,7 @@ public class userLoginStepDefinition extends CucumberIntegrationTest {
 
     @Given("I want to make login request, with the following credentials {string} {string}")
     public void i_want_to_login_onto_the_test_user_account_with_pAssword_1_as_the_password(String username, String password) {
-        User user = new User(username, password);
+        User user = new User(username, argon2PasswordEncoder.encode(password));
         userRepository.save(user);
     }
 

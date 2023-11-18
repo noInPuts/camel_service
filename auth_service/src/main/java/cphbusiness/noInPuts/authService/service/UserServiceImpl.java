@@ -8,6 +8,7 @@ import cphbusiness.noInPuts.authService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.authService.model.User;
 import cphbusiness.noInPuts.authService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,12 +20,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final Argon2PasswordEncoder argon2PasswordEncoder;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.argon2PasswordEncoder = new Argon2PasswordEncoder(16, 32, 1, 128 * 1024, 5);
     }
 
-    // TODO: Hashing password
     public UserDTO createUser(UserDTO userDTO) throws UserAlreadyExistsException, WeakPasswordException {
 
         // Check if user is already registered
@@ -41,8 +44,7 @@ public class UserServiceImpl implements UserService {
             throw new WeakPasswordException("Password is not strong enough");
         }
 
-
-        User user = userRepository.save(new User(userDTO.getUsername(), userDTO.getPassword()));
+        User user = userRepository.save(new User(userDTO.getUsername(), argon2PasswordEncoder.encode(userDTO.getPassword())));
 
         return new UserDTO(user.getId(), user.getUsername());
     }
@@ -50,7 +52,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO login(UserDTO userDTO) throws WrongCredentialsException, UserDoesNotExistException {
         Optional<User> user = userRepository.findByUsername(userDTO.getUsername());
         if (user.isPresent()) {
-            if (user.get().getPassword().equals(userDTO.getPassword())) {
+            if (argon2PasswordEncoder.matches(userDTO.getPassword(), user.get().getPassword())) {
                 userDTO.setPassword(null);
                 userDTO.setId(user.get().getId());
             } else {
