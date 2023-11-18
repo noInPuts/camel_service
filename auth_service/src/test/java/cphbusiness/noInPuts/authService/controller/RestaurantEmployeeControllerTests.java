@@ -15,8 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(RestaurantEmployeeController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -39,7 +38,7 @@ public class RestaurantEmployeeControllerTests {
         this.mockMvc.perform(post("/restaurantEmployee/login").content("{ \"username\": \"employee_user\", \"password\": \"Password1!\" }").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"user\": { \"username\": \"employee_user\", \"password\": \"Password1!\"}}"))
-                .andExpect(content().json("{ \"jwtToken\":  \"jwtToken\"}"));
+                .andExpect(cookie().exists("jwt-token"));
     }
 
     @Test

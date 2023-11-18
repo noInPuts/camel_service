@@ -5,6 +5,8 @@ import cphbusiness.noInPuts.authService.exception.UserDoesNotExistException;
 import cphbusiness.noInPuts.authService.exception.WrongCredentialsException;
 import cphbusiness.noInPuts.authService.service.JwtService;
 import cphbusiness.noInPuts.authService.service.RestaurantEmployeeService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +32,7 @@ public class RestaurantEmployeeController {
 
     @PostMapping(value = "/restaurantEmployee/login", produces = "application/json", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody RestaurantEmployeeDTO postRestaurantEmployeeDTO) {
+    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody RestaurantEmployeeDTO postRestaurantEmployeeDTO, HttpServletResponse servletResponse) {
         RestaurantEmployeeDTO restaurantEmployeeDTO;
 
         try {
@@ -43,7 +45,14 @@ public class RestaurantEmployeeController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("user", restaurantEmployeeDTO);
-        response.put("jwtToken", jwtToken);
+
+        Cookie cookie = new Cookie("jwt-token", jwtToken);
+        cookie.setMaxAge(2 * 24 * 60 * 60);
+        cookie.setHttpOnly(true);
+
+        // TODO: research setSecure
+
+        servletResponse.addCookie(cookie);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
