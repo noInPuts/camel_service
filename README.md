@@ -3,7 +3,7 @@ This system serves as a food order and delivery application. The software archit
 
 ## Participants
 * Benjamin Sommervoll - CPH-BS202
-* Jeffrey CPH-JO208
+* Jeffrey - CPH-JO208
 * Line - CPH-LW146 
 * Louise - CPH-LE115
 
