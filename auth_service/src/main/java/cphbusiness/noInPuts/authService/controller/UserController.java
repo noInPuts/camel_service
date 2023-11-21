@@ -22,13 +22,13 @@ public class UserController {
 
     private final UserService userService;
     private final JwtService jwtService;
-    private final RabbitMessagePublisher rabbitMessagePublisher;
+    //private final RabbitMessagePublisher rabbitMessagePublisher;
 
     @Autowired
-    public UserController(UserService userService, JwtService jwtService, RabbitMessagePublisher rabbitMessagePublisher) {
+    public UserController(UserService userService, JwtService jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;
-        this.rabbitMessagePublisher = rabbitMessagePublisher;
+        //this.rabbitMessagePublisher = rabbitMessagePublisher;
     }
 
     // Endpoint for creating a user account
@@ -52,7 +52,7 @@ public class UserController {
         String jwtToken = jwtService.tokenGenerator(userDTO.getId(), userDTO.getUsername(), "user");
 
         // Send out createdUserEvent to RabbitMQ/Apache Camel
-        rabbitMessagePublisher.createdUserEvent("User created: " + userDTO.getUsername());
+        //rabbitMessagePublisher.createdUserEvent("User created: " + userDTO.getUsername());
 
         // Creates response entity with userDTO and JWT token
         Map<String, Object> response = new HashMap<>();
