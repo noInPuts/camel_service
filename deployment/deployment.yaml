@@ -1,20 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: your-app-name1
+  name: mtogo-app
 spec:
-  replicas: 3  
+  replicas: 1  
   selector:
     matchLabels:
-      app: your-app-name2
+      app: auth-service
   template:
     metadata:
       labels:
-        app: your-app-name2
+        app: auth-service
     spec:
       containers:
         - name: auth-service
-          image: pl0xi/auth_service:latest  
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: production 
+          image: pl0xi/auth_service:latest
