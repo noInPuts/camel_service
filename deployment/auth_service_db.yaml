@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-database-auth-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-database-auth-service
+  template:
+    metadata:
+      labels:
+        app: postgres-database-auth-service
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres:16
+          ports:
+            - containerPort: 5432 
+          env:
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: trust
