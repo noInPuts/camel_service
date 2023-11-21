@@ -49,7 +49,7 @@ public class adminLoginStepDefinition extends CucumberIntegrationTest {
     }
 
     @Then("The response status code should be {int} and i should receive a token and my admin details:")
-    public void ss(int statusCode, DataTable dataTable) throws UnsupportedEncodingException {
+    public void the_reponse_status_should_be(int statusCode, DataTable dataTable) throws UnsupportedEncodingException {
         List<Map<String, String>> dataList = dataTable.asMaps(String.class, String.class);
         MockHttpServletResponse response = result.getResponse();
         String responseBody = response.getContentAsString();

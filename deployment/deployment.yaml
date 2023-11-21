@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: your-app-name1
+spec:
+  replicas: 3  
+  selector:
+    matchLabels:
+      app: your-app-name2
+  template:
+    metadata:
+      labels:
+        app: your-app-name3
+    spec:
+      containers:
+        - name: auth-service
+          image: pl0xi/auth_service:latest  
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: production 
