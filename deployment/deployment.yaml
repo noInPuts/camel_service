@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: your-app-name3
+        app: your-app-name2
     spec:
       containers:
         - name: auth-service
