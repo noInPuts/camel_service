@@ -17,10 +17,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: '17'  
-
-    - name: Running user service tests
-      working-directory: ./user_service   
-      run: mvn clean test
       
     - name: Running restaurant service tests
       working-directory: ./restaurant_service   
@@ -38,15 +34,6 @@ jobs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-    
-
-    - name: Build and push user service
-      uses: docker/build-push-action@v5
-      with:
-        context: ./user_service
-        file: ./user_service/Dockerfile
-        push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/user_service:latest
 
     - name: Build and push restaurant service
       uses: docker/build-push-action@v5
