@@ -17,4 +17,4 @@ FROM openjdk:17-slim
 WORKDIR /usr/src/app
 
 # Copy the JAR file from the build image to this image
-COPY --from=build /usr/src/app/target/integration_service.jar .
+COPY --from=build /usr/src/app/target/camel_service.jar .

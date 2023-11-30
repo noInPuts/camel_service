@@ -41,5 +41,5 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/apache_camel:${{ steps.get-version.outputs.version }}
+        tags: ${{ secrets.DOCKER_USERNAME }}/camel_service:${{ steps.get-version.outputs.version }}
   
