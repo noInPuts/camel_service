@@ -1,18 +1,7 @@
-# Exam project for Sem 1 PBA Software Development at CPH Business Academy
-This system serves as a food order and delivery application. The software architecture is microservices with n-layer and n-tier architecture style.
+# Camel Service
+This services handles the integration between our microservices. For the purpose of our assignment we will be using different types of communication protocols such as gRpc, Rest,
+RabbitMQ, GraphQL and SOAP. This service will be responsible for the integration between the different services and the communication between them.
 
-## Participants
-* Benjamin Sommervoll - CPH-BS202
-* Jeffrey - CPH-JO208
-* Line - CPH-LW146 
-* Louise - CPH-LE115
-
-## Tech Stack
-* Camunda (Engine and BPMN models)
+# Tech Stack
 * Apache Camel
 * RabbitMQ
-* Spring boot
-* Bootstrap
-* React
-* PostgreSQL
-* Cucumber

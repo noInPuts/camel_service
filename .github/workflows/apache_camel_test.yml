@@ -19,6 +19,5 @@ jobs:
       with:
         java-version: '17'  
 
-    - name: Running tests
-      working-directory: ./apache_camel   
+    - name: Running tests   
       run: mvn clean test -q

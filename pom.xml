@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cphbusiness.noInPuts</groupId>
-	<artifactId>integration_service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>camel_service</artifactId>
+	<version>0.0.1</version>
 	<name>integration_service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -43,6 +43,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>camel_service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
