@@ -21,10 +21,12 @@ jobs:
     - name: Running camel service tests
       run: mvn clean test
 
+    - name: Running pmd:check tests
+      run: mvn pmd:check
+
     - name: Read Maven project version
       id: get-version
       run: echo "::set-output name=version::$(mvn -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)"
-
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
