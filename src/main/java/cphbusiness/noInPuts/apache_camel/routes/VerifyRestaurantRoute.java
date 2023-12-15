@@ -1,6 +1,5 @@
 package cphbusiness.noInPuts.apache_camel.routes;
 
-import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
