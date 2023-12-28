@@ -1,7 +1,6 @@
 package cphbusiness.noInPuts.apache_camel.config;
 
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
