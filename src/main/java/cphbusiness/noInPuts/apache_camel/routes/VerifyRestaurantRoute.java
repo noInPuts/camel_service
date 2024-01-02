@@ -16,7 +16,7 @@ public class VerifyRestaurantRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("grpc://localhost:9090/cphbusiness.noinputs.order_service.main.proto.GetRestaurant?method=GetRestaurant")
+        from("grpc://0.0.0.0:9090/cphbusiness.noinputs.order_service.main.proto.GetRestaurant?method=GetRestaurant")
                 .process(exchange -> {
                     OrderRoutes.GetRestaurantRequest request = exchange.getIn().getBody(OrderRoutes.GetRestaurantRequest.class);
 
