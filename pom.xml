@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>cphbusiness.noInPuts</groupId>
 	<artifactId>camel_service</artifactId>
-	<version>0.0.8</version>
+	<version>0.0.9</version>
 	<name>integration_service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
