@@ -5,13 +5,21 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VerifyRestaurantRoute extends RouteBuilder {
+
+    @Value("${service.order.url}")
+    private String orderServiceAddress;
+
+    @Value("${service.restaurant.url}")
+    private String restaurantServiceAddress;
+
     @Override
     public void configure() {
-        from("grpc://localhost:9090/cphbusiness.noinputs.order_service.main.proto.GetRestaurant?method=GetRestaurant")
+        from("grpc://"+orderServiceAddress+"/cphbusiness.noinputs.order_service.main.proto.GetRestaurant?method=GetRestaurant")
                 .process(exchange -> {
                     OrderRoutes.GetRestaurantRequest request = exchange.getIn().getBody(OrderRoutes.GetRestaurantRequest.class);
 
@@ -19,7 +27,7 @@ public class VerifyRestaurantRoute extends RouteBuilder {
                     exchange.getIn().setHeader("restaurantId", restaurantId);
                     exchange.getIn().setBody(null);
                 })
-                .toD("http://localhost:8083/api/restaurant/restaurants/${header.restaurantId}?throwExceptionOnFailure=false")
+                .toD("http://"+restaurantServiceAddress+"/api/restaurant/restaurants/${header.restaurantId}?throwExceptionOnFailure=false")
                 .process(exchange -> {
                     Integer statusCode = exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE, Integer.class);
 
