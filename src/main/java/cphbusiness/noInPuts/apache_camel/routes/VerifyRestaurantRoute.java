@@ -11,15 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class VerifyRestaurantRoute extends RouteBuilder {
 
-    @Value("${service.order.url}")
-    private String orderServiceAddress;
-
     @Value("${service.restaurant.url}")
     private String restaurantServiceAddress;
 
     @Override
     public void configure() {
-        from("grpc://"+orderServiceAddress+"/cphbusiness.noinputs.order_service.main.proto.GetRestaurant?method=GetRestaurant")
+        from("grpc://localhost:9090/cphbusiness.noinputs.order_service.main.proto.GetRestaurant?method=GetRestaurant")
                 .process(exchange -> {
                     OrderRoutes.GetRestaurantRequest request = exchange.getIn().getBody(OrderRoutes.GetRestaurantRequest.class);
 
