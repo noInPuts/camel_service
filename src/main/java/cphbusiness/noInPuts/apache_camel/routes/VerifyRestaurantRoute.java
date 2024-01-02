@@ -24,7 +24,7 @@ public class VerifyRestaurantRoute extends RouteBuilder {
                     exchange.getIn().setHeader("restaurantId", restaurantId);
                     exchange.getIn().setBody(null);
                 })
-                .toD("http://"+restaurantServiceAddress+"/api/restaurant/restaurants/${header.restaurantId}?throwExceptionOnFailure=false")
+                .toD(restaurantServiceAddress+"/api/restaurant/restaurants/${header.restaurantId}?throwExceptionOnFailure=false")
                 .process(exchange -> {
                     Integer statusCode = exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE, Integer.class);
 
