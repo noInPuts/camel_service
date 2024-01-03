@@ -56,11 +56,7 @@ public class VerifyRestaurantRoute extends RouteBuilder {
         from("kafka:getRestaurant?brokers=localhost:9092")
                 .setExchangePattern(ExchangePattern.InOut)
                 .log("Restaurant is verified: ${body}");
-
-        // RabbitMQ
-        from("spring-rabbitmq:default?queues=userCreated&routingKey=userCreated")
-                .log(LoggingLevel.INFO, "User is created: ${body}")
-                .to("spring-rabbitmq:default?queues=persistUserInUserService&routingKey=persistUserInUserService");
         */
+
     }
 }

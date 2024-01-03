@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>cphbusiness.noInPuts</groupId>
 	<artifactId>camel_service</artifactId>
-	<version>0.1.2</version>
+	<version>0.1.3</version>
 	<name>integration_service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -35,6 +35,23 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.3</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.3</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
+			<version>0.12.3</version>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-spring-rabbitmq-starter</artifactId>
