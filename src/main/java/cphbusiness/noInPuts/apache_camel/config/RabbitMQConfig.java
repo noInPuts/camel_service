@@ -12,4 +12,9 @@ public class RabbitMQConfig {
         return new Queue("createRestaurant");
     }
 
+    @Bean
+    public Queue sendEmail() {
+        return new Queue("sendEmail");
+    }
+
 }
